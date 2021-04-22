@@ -20,6 +20,7 @@ function myBar(data) {
     //         {group: "JavaScript", 2020: "66", 2019: "66", 2018: "62"}]
     console.log(data[0]);
     data = data.slice(0,8);
+  
     //data = data[0:8]
     // console.log(data[0].Nitrogen);
     //data
@@ -102,7 +103,7 @@ function myBar(data) {
     // color palette = one color per subgroup
     var color = d3.scaleOrdinal()
     .domain(subgroups)
-    .range(['#e41a1c','#377eb8','#4daf4a'])
+    .range(['#440154ff','#377eb8'])
 
 
 
@@ -165,4 +166,36 @@ function myBar(data) {
     // svg.selectAll('rect').on('mouseover', showTooltip)
     //     .on("mouseleave", hideTooltip)
 
+    //legends
+    var legend = svg.append('g')
+                .attr('class', 'legend')
+                .attr('transform', 'translate(' + (40 + 12) + ', 0)');
+
+    legend.selectAll('rect')
+        .data(subgroups)
+        .enter()
+        .append('rect')
+        .attr('x', width - margin.left - margin.right)
+        .attr('y', function(d, i){
+            return i * 18;
+        })
+        .attr('width', 12)
+        .attr('height', 12)
+        .attr('fill', function(d, i){
+            return color(i);
+        });
+            
+    legend.selectAll('text')
+        .data(subgroups)
+        .enter()
+        .append('text')
+        .text(function(d){
+            return d;
+        })
+        .attr('x', width - margin.left - margin.right + 18)
+        .attr('y', function(d, i){
+            return i * 18;
+        })
+        .attr('text-anchor', 'start')
+        .attr('alignment-baseline', 'hanging');
 }

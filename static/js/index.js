@@ -16,12 +16,24 @@ function make_active(event){
 // document.getElementById("div1").style.display="block";
 // document.getElementById("selectVar").style.display="block";
 // document.getElementById("div2").style.display="none";
+
+function get_filters(){
+
+    tData = ["LanguageWorkedWith", "DatabaseWorkedWith"]
+    d3.select("#selectVar")
+    .selectAll('myOptions')
+    .data(tData)
+    .enter()
+    .append('option')
+    .text(function(d) {return d;})
+    .attr("value", function(d) {return d;})
+}
 function display_biplot(event){
     make_active(this.event);
     var settings = {
         "async": true,
         "crossDomain": true,
-        "url": "http://127.0.0.1:5000/biplot",
+        "url": "/biplot",
         "method": "GET",
         "headers": {
           "cache-control": "no-cache",
@@ -63,10 +75,14 @@ function display_ScreePlot(){
 
 function display_BarChart(){
   FilterString="LanguageWorkedWith";
+  data = JSON.stringify({
+    "_display":FilterString,
+    "_filters":{}
+  })
   var settings = {
     "async": true,
     "crossDomain": true,
-    "url": "http://127.0.0.1:5005/barchart",
+    "url": "/barchart",
     "method": "POST",
     "headers": {
       "content-type": "application/json",
@@ -74,7 +90,7 @@ function display_BarChart(){
       "postman-token": "2e0d766d-0264-5f92-b8e1-8387dce55a67"
     },
     "processData": false,
-    "data": "{\n\t\"_display\":\"LanguageWorkedWith\",\n\t\"_filters\":{}\n}"
+    "data": data
   }
   
   $.ajax(settings).done(function (response) {
@@ -173,4 +189,5 @@ readTextFile("../static/geo.json", function(text){
 console.log("testing coming here")
 display_BarChart();
 myScatter();
+get_filters();
 //display_ScreePlot();
