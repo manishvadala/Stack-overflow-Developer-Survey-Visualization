@@ -1,8 +1,8 @@
 function myScatter() {
     console.log("entering scatter");
-    xType='cat'
+    xType='num'
     yType='num'
-    xValue='Languages'
+    xValue='Experience in Years'
     yValue='Compensation'
     //console.log("xData" + xData);
     //console.log("yData" + yData);
@@ -17,12 +17,12 @@ function myScatter() {
     b = [1,2,3,4,5,5,4,3,2,1]
     c = [0,1,2,3,4,5,6,7,8,9]
 
-    data = [{groupA: "python", groupB: "72000"}, 
-            {groupA: "Go", groupB: "68000"}, 
-            {groupA: "Swift", groupB: "65650"},
-            {groupA: "Go2", groupB: "68780"}, 
-            {groupA: "Swift2", groupB: "65000"},
-            {groupA: "JavaScript", groupB: "66000"}];
+    data = [{groupA: "8", groupB: "72000", groupC: "Python", groupD: "100"}, 
+            {groupA: "7", groupB: "68000", groupC: "Go", groupD: "200"}, 
+            {groupA: "7", groupB: "65650", groupC: "Swift", groupD: "250"},
+            {groupA: "6", groupB: "68780", groupC: "Go2", groupD: "300"}, 
+            {groupA: "5", groupB: "65000", groupC: "Swift2", groupD: "200"},
+            {groupA: "1", groupB: "66000", groupC: "JavaScript", groupD: "250"}];
 
     //console.log(data.groupA);
     console.log(data[0].groupA);
@@ -90,6 +90,16 @@ function myScatter() {
         .style("text-anchor", "middle")
         .text(yValue);
 
+    // Adding color
+    var myColor = d3.scaleOrdinal()
+    .domain(d3.extent(data, function(d) { return d.groupC; }))
+    .range(d3.schemeSet2);
+
+    // Add a scale for bubble size
+    var z = d3.scaleLinear()
+    .domain(d3.extent(data, function(d) { return d.groupD; }))
+    .range([ 4, 20]);
+
     // Add dots
     svg.append('g')
         .selectAll("dot")
@@ -98,11 +108,11 @@ function myScatter() {
         .append("circle")
         .attr("cx", function (d) { return x(d.groupA); })
         .attr("cy", function (d) { return y(d.groupB); })
-        .attr("r", 4)
-        .style("fill", "#69b3a2")
+        .attr("r", function (d) { return z(d.groupD); })
+        .style("fill", function (d) { return myColor(d.groupD); })
 
     // new X axis
-    xType == 'cat' ? x.domain(data.map(function(d) { return d.groupA; })) : x.domain(d3.extent(data, function(d) { return d.groupA; }));
+    xType == 'cat' ? x.domain(data.map(function(d) { return d.groupA; })) : x.domain([0, 9]);
     svg.select(".myXaxis")
         .transition()
         .duration(200)

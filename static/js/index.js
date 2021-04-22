@@ -27,6 +27,51 @@ function get_filters(){
     .append('option')
     .text(function(d) {return d;})
     .attr("value", function(d) {return d;})
+
+    yData = ["2019", "2020"]
+    d3.select("#selectYear")
+    .selectAll('myOptions')
+    .data(yData)
+    .enter()
+    .append('option')
+    .text(function(d) {return d;})
+    .attr("value", function(d) {return d;})
+
+    aData = ["Experience", "Avg Work Hours"]
+    d3.select("#selectA")
+    .selectAll('myOptions')
+    .data(aData)
+    .enter()
+    .append('option')
+    .text(function(d) {return d;})
+    .attr("value", function(d) {return d;})
+
+    bData = ["Salaries"]
+    d3.select("#selectB")
+    .selectAll('myOptions')
+    .data(bData)
+    .enter()
+    .append('option')
+    .text(function(d) {return d;})
+    .attr("value", function(d) {return d;})
+
+    cData = ["LanguageWorkedWith", "DatabaseWorkedWith"]
+    d3.select("#selectC")
+    .selectAll('myOptions')
+    .data(cData)
+    .enter()
+    .append('option')
+    .text(function(d) {return d;})
+    .attr("value", function(d) {return d;})
+
+    dData = ["No. of People"]
+    d3.select("#selectD")
+    .selectAll('myOptions')
+    .data(dData)
+    .enter()
+    .append('option')
+    .text(function(d) {return d;})
+    .attr("value", function(d) {return d;})
 }
 function display_biplot(event){
     make_active(this.event);
