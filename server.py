@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import json
 from json import JSONEncoder
-from flask import Flask,request
+from flask import Flask,request, jsonify, Response, redirect, render_template
 from config import *
 
 app = Flask(__name__)
@@ -43,6 +43,9 @@ def prep_resp_data(tech_data,years):
 		resp_data.append(mp)
 	return resp_data
 
+@app.route('/home')
+def home():
+    return render_template('index.html')
 
 @app.route('/barchart',methods=['POST'])
 def barchart():

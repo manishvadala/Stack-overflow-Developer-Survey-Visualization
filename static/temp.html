@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Visualization</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css/main.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Basketball<small>Player Stats by Season</small></h1>
+        </header>
+        <hr>
+        <nav>
+            <a class="tablinks active" onclick="myBar()">BarChart/Histogram</a>
+            <a class="tablinks" onclick="display_Scatter(event)">ScatterPlot</a>
+        </nav>
+        <hr>
+        <div>
+          <select id="selectVar">
+            <option disabled selected value> -- select an option -- </option>
+          </select>
+          <div id="div1">
+          </div>
+        </div>
+        
+        <div id="div2">
+          <form>
+            <input id="radioX" type="radio" name="choice" value="X"> X
+            <input id="radioY" type="radio" name="choice" value="Y"> Y
+            <select id="selectXY">
+              <option disabled selected value> -- select an option -- </option>
+            </select>
+          </form>
+        </div>
+        <!-- <div3>
+            <bcontent></bcontent>
+        </div3> -->
+        
+        <hr>
+        
+    </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src='https://d3js.org/d3.v4.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+    <script src="js/ScatterPlot.js"></script>
+    <script src="js/BarChart.js"></script>
+    <script src="js/Histogram.js"></script>
+    <script src="js/index.js"></script>
+    <script>
+      
+    </script>
+</body>
+</html>

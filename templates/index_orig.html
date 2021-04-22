@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Visualization</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css/main.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Basketball<small>Player Stats by Season</small></h1>
+        </header>
+        <hr>
+        <nav>
+          <a class="tablinks active" onclick="display_ScreePlot(event)">ScreePlot/ScatterMatrix</a>
+          <a class="tablinks" onclick="display_biplot(event)">BiPlot</a>
+          <a class = "tablinks" onclick="display_mdsplot(event)">MDSPlot</a>
+          <a class = "tablinks" onclick="display_pcplot(event)">PCPlot</a>
+          <!-- <a class="tablinks active" onclick="display_Bar(event)">BarChart/Histogram</a>
+            <a class="tablinks" onclick="display_Scatter(event)">ScatterPlot</a> -->
+        </nav>
+        <hr>
+        <div id="divX">
+
+        </div>
+        <!-- <div>
+          <select id="selectVar">
+            <option disabled selected value> -- select an option -- </option>
+          </select>
+          <div id="div1">
+          </div>
+        </div> -->
+        
+        <!-- <div id="div2">
+          <form>
+            <input id="radioX" type="radio" name="choice" value="X"> X
+            <input id="radioY" type="radio" name="choice" value="Y"> Y
+            <select id="selectXY">
+              <option disabled selected value> -- select an option -- </option>
+            </select>
+          </form>
+        </div> -->
+        <!-- <div3>
+            <bcontent></bcontent>
+        </div3> -->
+        
+        <hr>
+        
+    </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src='https://d3js.org/d3.v4.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+    <script src="../static/js/Flower.js"></script>
+    <script src="../static/js/ScatterMatrix.js"></script>
+    <script src="../static/js/ScreePlot.js"></script>
+    <script src="../static/js/BiPlot.js"></script>
+    <script src="../static/js/MDSPlot.js"></script>
+    <script src="../static/js/PCP.js"></script>
+    <script src="../static/js/PCP2.js"></script>
+    <script src="../static/js/index.js"></script>
+    <script>
+      
+    </script>
+</body>
+</html>
