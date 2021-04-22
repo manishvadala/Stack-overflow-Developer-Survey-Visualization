@@ -72,6 +72,37 @@ def barchart():
 	)
 	return response
 
+def get_avg_comp(df,key):
+	df = df[df[key].notna()]
+	salaries = df[key].values
+	mean_salary = np.mean(salaries)
+	# rows = len(salaries)
+	# sum=0
+	# for salary in salaries:
+	# 	if int(salary)<=2000000:
+	# 		sum+=int(salary)
+	# mean_salary=sum/rows
+	return mean_salary
+
+@app.route('/worldmap',methods=['POST'])
+def worldMap():
+	req_data = request.json
+	_filters = req_data.get("_filters",{})
+	_key = req_data.get("_display",{})
+	new_df = df.loc[df['year'] == 2020]
+	for _filter in _filters:
+		new_df = new_df[new_df[_filter].notna()]
+		new_df = new_df[new_df[_filter]==_filters[_filter]]
+	avg_salary = get_avg_comp(new_df,_key)
+	response = app.response_class(
+		response=json.dumps({
+			"avg_salary":avg_salary
+		}, cls=NumpyArrayEncoder),
+		status=200,
+		mimetype='application/json'
+	)
+	return response
+
 def load_data():
 	_data_path = os.path.join(BASE_PATH,"Data","merged_data.csv")
 	global df
