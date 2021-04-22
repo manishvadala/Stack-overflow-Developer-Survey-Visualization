@@ -22,10 +22,11 @@ def process(paths):
         df=df.reindex(columns=col_names)
         df = df[col_names]
         #df.to_csv("./../Data/new_data"+str(year)+".csv")
-        sampled_data = df.sample(n = 500, random_state = 2)
-        print(sampled_data)
+        sampled_data = df #df.sample(n = 500, random_state = 2)
+        #print(sampled_data)
         data_frame.append(sampled_data)
     result = pd.concat(data_frame)
+    print(result)
     result.to_csv("./../Data/merged_data.csv",na_rep='N/A')
 
 if __name__ == "__main__":
