@@ -13,9 +13,10 @@ class NumpyArrayEncoder(JSONEncoder):
 			return obj.tolist()
 		return JSONEncoder.default(self, obj)
 
-def extract_technologies(df,key,rows):
+def extract_technologies(df,key):
 	df = df[df[key].notna()]
 	langs = df[key].astype(str)
+	rows=len(langs)
 	all_langs=[]
 	mp={}
 	for lang in langs:
@@ -56,11 +57,10 @@ def barchart():
 	tech_data=[]
 	for year in years:
 		new_df = df.loc[df['year'] == year]
-		rows = new_df.shape[0]
 		for _filter in _filters:
 			new_df = new_df[new_df[_filter].notna()]
 			new_df = new_df.loc[new_df[_filter] == _filters[_filter]]
-		td=extract_technologies(new_df,_key,rows)
+		td=extract_technologies(new_df,_key)
 		tech_data.append(td)
 	resp_data = prep_resp_data(tech_data,years)
 	response = app.response_class(
