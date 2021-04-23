@@ -46,7 +46,7 @@ def prep_resp_data(tech_data,years):
 
 @app.route('/home')
 def home():
-    return render_template('index.html')
+	return render_template('index.html')
 
 @app.route('/barchart',methods=['POST'])
 def barchart():
@@ -102,6 +102,78 @@ def worldMap():
 		mimetype='application/json'
 	)
 	return response
+
+def get_uniq_langs(new_df,key):
+	new_df = new_df[new_df[key].notna()]
+	languages = new_df[key].astype(str)
+	all_languages=[]
+	for language in languages:
+		all_languages+=language.split(";")
+	uniq_languages = list(set(all_languages))
+	return uniq_languages
+
+
+def get_language_compensation(new_df,mp):
+	rows=len(new_df)
+	languages = new_df["LanguageWorkedWith"].astype(str)
+	languages = languages.values
+	compensation = new_df["ConvertedComp"].values
+	for i in range(0,rows):
+		diff_langs = languages[i].split(";")
+		for each_lang in diff_langs:
+			mp[each_lang][0]+=1
+			mp[each_lang][1]+=compensation[i]
+	for lang in mp:
+		if mp[lang][1]>0:
+			mp[lang][1]=mp[lang][1]/mp[lang][0]
+	return mp
+
+
+def prep_Data_response(exp,mp):
+	resp=[]
+	for _key in mp:
+		resp.append({"groupA":exp,"groupB":int(mp[_key][1]),"groupC":_key,"groupD":mp[_key][0]})
+	return resp
+
+
+def get_data_exp(df,uniq_languages):
+	exp_levels = list(set(df["YearsCodePro"].values))
+	exp_levels.sort()
+	exp_levels=exp_levels[:-2]
+	exp_levels = [int(level) for level in exp_levels]
+	exp_levels.sort()
+	print(exp_levels)
+	_data_display=[]
+	for exp in exp_levels:
+		mp={}
+		for language in uniq_languages:
+			mp[language]=[0,0]
+		new_df = df.loc[df["YearsCodePro"]=="1"]
+		mp=get_language_compensation(new_df,mp)
+		resp=prep_Data_response(exp,mp)
+		_data_display=_data_display+resp
+	return _data_display
+
+
+@app.route('/scatterplot',methods=["POST"])
+def scatter_plot():
+	req_data = request.json
+	_filters = req_data.get("_filters",[])
+	new_df = df.loc[df['year'] == 2020]
+	for _filter in _filters:
+		new_df = new_df[new_df[_filter].notna()]
+	uniq_languages = get_uniq_langs(new_df,_filters[-1])
+	_data_display = get_data_exp(new_df,uniq_languages)
+	response = app.response_class(
+		response=json.dumps({
+			"data":_data_display
+		}, cls=NumpyArrayEncoder),
+		status=200,
+		mimetype='application/json'
+	)
+	return response
+
+
 
 def load_data():
 	_data_path = os.path.join(BASE_PATH,"Data","merged_data.csv")
