@@ -146,14 +146,15 @@ function myBar(data) {
     //     .attr("height", function (d) { return height - yScale(b[d]); })
     //     .attr("fill", "#69b3a2")
         
-    svg.append("g")
-        .selectAll("g")
-        // Enter in data = loop group per group
-        .data(data)
-        .enter()
-        .append("g")
-          .attr("transform", function(d) { return "translate(" + x(d.group) + ",0)"; })
-        .selectAll("rect")
+    bars = svg.append("g")
+          .selectAll("g")
+          // Enter in data = loop group per group
+          .data(data)
+          .enter()
+          .append("g")
+          .attr("transform", function(d) { return "translate(" + x(d.group) + ",0)"; });
+      
+    bars.selectAll("rect")
         .data(function(d) { return subgroups.map(function(key) { return {key: key, value: d[key]}; }); })
         .enter().append("rect")
           .attr("x", function(d) { return xSubgroup(d.key); })
@@ -161,6 +162,14 @@ function myBar(data) {
           .attr("width", xSubgroup.bandwidth())
           .attr("height", function(d) { return height - y(d.value); })
           .attr("fill", function(d) { return color(d.key); });
+    bars.selectAll("text")
+        .data(function(d) { return subgroups.map(function(key) { return {key: key, value: d[key]}; }); })
+        .enter().append("text")
+          // .attr("x", function(d) { return xSubgroup(d.key); })
+          // .attr("y", function(d) { return y(d.value); })
+          .text(function(d) { return Math.floor(d.value);} )
+          .attr("stroke",function(d) { return color(d.key); })
+          .attr("transform", function (d) { return "translate(" + xSubgroup(d.key) + "," + y(d.value) + ")"; });
     
 
     // svg.selectAll('rect').on('mouseover', showTooltip)
