@@ -142,16 +142,21 @@ def get_data_exp(df,uniq_languages):
 	exp_levels=exp_levels[:-2]
 	exp_levels = [int(level) for level in exp_levels]
 	exp_levels.sort()
+	exp_levels = [str(level) for level in exp_levels]
 	print(exp_levels)
 	_data_display=[]
+	arr={}
 	for exp in exp_levels:
-		mp={}
+		arr[exp]={}
+	for exp in exp_levels:
+		mp=arr[exp]
 		for language in uniq_languages:
 			mp[language]=[0,0]
-		new_df = df.loc[df["YearsCodePro"]=="1"]
+		new_df = df.loc[df["YearsCodePro"]==exp]
 		mp=get_language_compensation(new_df,mp)
 		resp=prep_Data_response(exp,mp)
 		_data_display=_data_display+resp
+	print(_data_display)
 	return _data_display
 
 
@@ -179,6 +184,7 @@ def load_data():
 	_data_path = os.path.join(BASE_PATH,"Data","merged_data.csv")
 	global df
 	df=pd.read_csv(_data_path)
+	print(df.shape)
 
 if __name__ == "__main__":
 	load_data()
