@@ -72,6 +72,15 @@ function get_filters(){
     .append('option')
     .text(function(d) {return d;})
     .attr("value", function(d) {return d;})
+
+    atrData = ["Avg. Salaries", "Avg. Age"]
+    d3.select("#selectAtr")
+    .selectAll('myOptions')
+    .data(atrData)
+    .enter()
+    .append('option')
+    .text(function(d) {return d;})
+    .attr("value", function(d) {return d;})
 }
 function display_biplot(event){
     make_active(this.event);
