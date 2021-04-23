@@ -154,6 +154,29 @@ function display_BarChart(){
   });
 }
 
+function display_ScatterPlot(){
+  data = JSON.stringify({
+    "_filters":["YearsCodePro","ConvertedComp","LanguageWorkedWith"]
+  })
+  var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "/scatterplot",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json",
+      "cache-control": "no-cache",
+      "postman-token": "cbaf7d49-3346-ea15-0144-bbff894474f7"
+    },
+    "processData": false,
+    "data": data
+  }
+  
+  $.ajax(settings).done(function (response) {
+    console.log(response);
+    myScatter(response.data);
+  });
+}
 function display_mdsplot(event){
     make_active(this.event)
     var settings = {
@@ -242,6 +265,6 @@ readTextFile("../static/geo.json", function(text){
 //get_kmeans();
 console.log("testing coming here")
 display_BarChart();
-myScatter();
+display_ScatterPlot();
 get_filters();
 //display_ScreePlot();

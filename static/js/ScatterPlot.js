@@ -1,4 +1,4 @@
-function myScatter() {
+function myScatter(data) {
     console.log("entering scatter");
     xType='num'
     yType='num'
@@ -17,14 +17,14 @@ function myScatter() {
     b = [1,2,3,4,5,5,4,3,2,1]
     c = [0,1,2,3,4,5,6,7,8,9]
 
-    data = [{groupA: "8", groupB: "72000", groupC: "Python", groupD: "100"}, 
-            {groupA: "7", groupB: "68000", groupC: "Go", groupD: "200"}, 
-            {groupA: "7", groupB: "65650", groupC: "Swift", groupD: "250"},
-            {groupA: "6", groupB: "68780", groupC: "Go2", groupD: "300"}, 
-            {groupA: "5", groupB: "65000", groupC: "Swift2", groupD: "200"},
-            {groupA: "1", groupB: "66000", groupC: "JavaScript", groupD: "250"}];
+    // data = [{groupA: "8", groupB: "72000", groupC: "Python", groupD: "100"}, 
+    //         {groupA: "7", groupB: "68000", groupC: "Go", groupD: "200"}, 
+    //         {groupA: "7", groupB: "65650", groupC: "Swift", groupD: "250"},
+    //         {groupA: "6", groupB: "68780", groupC: "Go2", groupD: "300"}, 
+    //         {groupA: "5", groupB: "65000", groupC: "Swift2", groupD: "200"},
+    //         {groupA: "1", groupB: "66000", groupC: "JavaScript", groupD: "250"}];
 
-    //console.log(data.groupA);
+    console.log(data);
     console.log(data[0].groupA);
 
     //console.log(totalArr);
@@ -71,7 +71,8 @@ function myScatter() {
     var y;
     if (yType == 'num') {
         y = d3.scaleLinear()
-            .domain([40000, d3.max(data, function(d) { return d.groupB; })])
+            //.domain([40000, d3.max(data, function(d) { return d.groupB; })])
+            .domain([0, 400000])
             .range([height, 0]);
     } else if (yType == 'cat') {
         y = d3.scaleBand()
@@ -112,7 +113,7 @@ function myScatter() {
         .style("fill", function (d) { return myColor(d.groupD); })
 
     // new X axis
-    xType == 'cat' ? x.domain(data.map(function(d) { return d.groupA; })) : x.domain([0, 9]);
+    xType == 'cat' ? x.domain(data.map(function(d) { return d.groupA; })) : x.domain([0, 45]);
     svg.select(".myXaxis")
         .transition()
         .duration(200)
