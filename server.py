@@ -120,9 +120,10 @@ def get_language_compensation(new_df,mp):
 	compensation = new_df["ConvertedComp"].values
 	for i in range(0,rows):
 		diff_langs = languages[i].split(";")
-		for each_lang in diff_langs:
-			mp[each_lang][0]+=1
-			mp[each_lang][1]+=compensation[i]
+		if compensation[i]<=4000000:
+			for each_lang in diff_langs:
+				mp[each_lang][0]+=1
+				mp[each_lang][1]+=compensation[i]
 	for lang in mp:
 		if mp[lang][1]>0:
 			mp[lang][1]=mp[lang][1]/mp[lang][0]
@@ -176,9 +177,32 @@ def scatter_plot():
 		status=200,
 		mimetype='application/json'
 	)
+	return response	
+
+@app.route('/pcpplot',methods=["POST"])
+def pcpplot():
+	print("working")
+	req_data = request.json
+	_filters = req_data.get("_filters",[])
+	col_names = df.columns
+	data=[]
+	new_df = df.loc[df['year'] == 2020]
+	new_df = new_df[_filters]
+	print(new_df)
+	print(new_df)
+	for _filter in _filters:
+		new_df = new_df[new_df[_filter].notna()]
+	print(new_df.values)
+
+	response = app.response_class(
+		response=json.dumps({
+			"pcp_data": new_df.values,
+			"col_names":col_names.values
+		}, cls=NumpyArrayEncoder),
+		status=200,
+		mimetype='application/json'
+	)
 	return response
-
-
 
 def load_data():
 	_data_path = os.path.join(BASE_PATH,"Data","merged_data.csv")
