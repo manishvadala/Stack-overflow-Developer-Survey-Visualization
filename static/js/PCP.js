@@ -1,18 +1,78 @@
-function parallel_coordinates_plot(featureNames, values, kmeans){
-    d3.select("svg").remove();
-    d3.select("table").remove();
+function parallel_coordinates_plot(){
+    d3.select("#div3").select("svg").remove();
+    featureNames = [
+        "Games Played",
+        "Field Goals Made",
+        "Field Goals Attempted",
+        "3Pointers Made",
+        "3Pointers Attempted",
+        "Free Throws Made",
+        "Free Throws Attempted",
+        "Personal Fouls",
+        "Offensive Rebounds",
+        "Defensive Rebounds",
+        "height_cm",
+        "weight"
+    ]
+    values = [
+        [
+            79,
+            956,
+            1665,
+            0,
+            1,
+            432,
+            824,
+            255,
+            336,
+            742,
+            216,
+            325
+        ],
+        [
+            82,
+            788,
+            1696,
+            95,
+            236,
+            436,
+            551,
+            263,
+            150,
+            326,
+            198,
+            220
+        ],
+        [
+            82,
+            752,
+            1476,
+            2,
+            8,
+            589,
+            739,
+            229,
+            169,
+            610,
+            206,
+            265
+        ]
+    ]
+
+    console.log(featureNames)
+    console.log(values)
     var combineValues = new Array(values.length);
     combineValues[0] = featureNames;
     for(var i=0; i<values.length; i++){
         combineValues[i+1] = values[i];
     }
-    // console.log(combineValues);
+    console.log(combineValues);
     // console.log(combineValues[0]);
     // console.log(combineValues[101]);
     // console.log(kmeans);
 
     var margin = {top: 100, right: 10, bottom: 10, left: 50},
-    width = 960 - margin.left - margin.right,
+    width = 860 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
     var x = d3.scalePoint().range([0, width], 1),
@@ -24,7 +84,7 @@ function parallel_coordinates_plot(featureNames, values, kmeans){
                 background,
                 foreground;
 
-    var svg = d3.select("#divX").append("svg")
+    var svg = d3.select("#div3").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
@@ -48,6 +108,8 @@ function parallel_coordinates_plot(featureNames, values, kmeans){
     //Extract the list of dimensions and create a scale for each.
     //x.domain();
     x.domain(dimensions);
+    console.log(x)
+    console.log(y)
 
     // Add grey background lines for context.
     background = svg.append("g")
@@ -66,7 +128,7 @@ function parallel_coordinates_plot(featureNames, values, kmeans){
     .attr("d", path)
     .attr("stroke", function (d, i) { 
         //console.log(kmeans[i]);
-        return get_kcolor(kmeans[i]) } );
+        return get_kcolor(0) } );
 
 
     // Add a group element for each dimension.

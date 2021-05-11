@@ -177,6 +177,11 @@ function display_ScatterPlot(){
     myScatter(response.data);
   });
 }
+
+function display_PCPlot(){
+  parallel_coordinates_plot();
+}
+
 function display_mdsplot(event){
     make_active(this.event)
     var settings = {
@@ -266,5 +271,6 @@ readTextFile("../static/geo.json", function(text){
 console.log("testing coming here")
 display_BarChart();
 display_ScatterPlot();
+display_PCPlot();
 get_filters();
 //display_ScreePlot();
