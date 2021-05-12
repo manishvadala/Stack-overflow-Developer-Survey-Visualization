@@ -35,6 +35,11 @@ function myMap(data){
     //     .attr("width", width)
     //     .attr("height", height);
 
+    //colors
+    var colorScale = d3.scaleThreshold()
+      .domain([100000, 1000000, 10000000, 30000000, 100000000, 500000000])
+      .range(d3.schemeBlues[7]);
+
     // Map and projection
     var projection = d3.geoNaturalEarth()
     .scale(width / 1.3 / Math.PI)
@@ -105,6 +110,11 @@ function myMap(data){
         .data(data.features)
         .enter().append("path")
             .attr("fill", "#69b3a2")
+            // .attr("fill", function(d){
+            //   //console.log(d);
+            //   d.total = 500000000;
+            //   return colorScale(d.total);
+            // })
             .attr("d", d3.geoPath()
                 .projection(projection)
             )
