@@ -1,5 +1,6 @@
 function myMap(data, attrData){
     // The svg
+    d3.select("#div2").select("svg").remove();
     console.log(data);
     console.log(attrData);
     // var svg = d3.select("#div2")
@@ -42,9 +43,9 @@ function myMap(data, attrData){
     //colors
     a = d3.min(Object.values(attrData));
     b = d3.max(Object.values(attrData));
-    k = (b-a)/5
+    k = (b-a)/4
     var colorScale = d3.scaleThreshold()
-      .domain([a, a+k, a+2*k, a+3*k, a+4*k, a+5*k])
+      .domain([a-k, a, a+k, a+2*k, a+3*k, a+4*k])
       .range(d3.schemeBlues[7]);
 
     // Map and projection
@@ -69,11 +70,14 @@ function myMap(data, attrData){
             var ytip = 100;//coordinates[0][1];
             
             console.log("xtip is==>",xtip);
-            svg.append("g").append("text")
-                        .text(Math.floor(attrData[d.properties.name])+" $")
+            if(!isNaN(Math.floor(attrData[d.properties.name]))){
+                svg.append("g").append("text")
+                        //.text(Math.floor(attrData[d.properties.name])+" $")
+                        .text(Math.floor(attrData[d.properties.name]))
                         .attr("id", "tooltext")
                         .attr("stroke", "#377eb8")
                         .attr("transform", function(d) { return "translate(" + xtip + "," + ytip + ")"; });
+            }
         
     }
 
@@ -96,7 +100,9 @@ function myMap(data, attrData){
             //.attr("fill", "#69b3a2")
             .attr("fill", function(d){
               //d.total = 500000000;
-              return colorScale(attrData[d.properties.name]);
+              if(!isNaN(Math.floor(attrData[d.properties.name])))
+                return colorScale(attrData[d.properties.name]);
+              else return colorScale(0);
             })
             .attr("d", d3.geoPath()
                 .projection(projection)

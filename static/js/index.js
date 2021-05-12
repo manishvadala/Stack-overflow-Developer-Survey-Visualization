@@ -35,6 +35,22 @@ function get_filters(){
       display_BarChart(selected_val);
     });
 
+    atrData = ["Avg. Salaries", "Avg. Age","Avg. Work Experience", "Avg. WorkWeekHrs"]
+    atrData2 = ["ConvertedComp", "Age", "YearsCodePro", "WorkWeekHrs"]
+    d3.select("#selectAtr")
+    .selectAll('myOptions')
+    .data(atrData)
+    .enter()
+    .append('option')
+    .text(function(d) {return d;})
+    .attr("value", function(d) {return d;})
+
+    d3.select("#selectAtr")
+    .on('change',function(){
+      selected_val = d3.select(this).property('value')
+      display_myMap(atrData2[atrData.indexOf(selected_val)]);
+    });
+
     yData = ["2019", "2020"]
     d3.select("#selectYear")
     .selectAll('myOptions')
@@ -80,14 +96,7 @@ function get_filters(){
     .text(function(d) {return d;})
     .attr("value", function(d) {return d;})
 
-    atrData = ["Avg. Salaries", "Avg. Age"]
-    d3.select("#selectAtr")
-    .selectAll('myOptions')
-    .data(atrData)
-    .enter()
-    .append('option')
-    .text(function(d) {return d;})
-    .attr("value", function(d) {return d;})
+    
 }
 function display_biplot(event){
     make_active(this.event);
