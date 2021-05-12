@@ -72,31 +72,27 @@ def barchart():
 	)
 	return response
 
-def get_avg_comp(df,key):
-	df = df[df[key].notna()]
-	salaries = df[key].values
-	mean_salary = np.mean(salaries)
-	# rows = len(salaries)
-	# sum=0
-	# for salary in salaries:
-	# 	if int(salary)<=2000000:
-	# 		sum+=int(salary)
-	# mean_salary=sum/rows
-	return mean_salary
+def get_avg_by_country(new_df,key):
+	new_df = new_df[new_df["Country"].notna()]
+	countries = new_df["Country"].unique()
+	new_df = new_df[new_df[key].notna()]
+	mp={}
+	for country in countries:
+		attrib = new_df.loc[new_df["Country"]==country]
+		attrib = attrib[key].values
+		mean_attrib = np.mean(attrib)
+		mp[country] = mean_attrib
+	return mp
 
 @app.route('/worldmap',methods=['POST'])
 def worldMap():
 	req_data = request.json
-	_filters = req_data.get("_filters",{})
 	_key = req_data.get("_display",{})
 	new_df = df.loc[df['year'] == 2020]
-	for _filter in _filters:
-		new_df = new_df[new_df[_filter].notna()]
-		new_df = new_df[new_df[_filter]==_filters[_filter]]
-	avg_salary = get_avg_comp(new_df,_key)
+	avg_data = get_avg_by_country(new_df,_key)
 	response = app.response_class(
 		response=json.dumps({
-			"avg_salary":avg_salary
+			"avg_data":avg_data
 		}, cls=NumpyArrayEncoder),
 		status=200,
 		mimetype='application/json'
