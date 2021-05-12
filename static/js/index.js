@@ -31,7 +31,7 @@ function get_filters(){
     d3.select("#selectVar")
     .on('change',function(){
       selected_val = d3.select(this).property('value')
-      display_BarChart("DatabaseWorkedWith");
+      display_BarChart(selected_val);
     });
 
     yData = ["2019", "2020"]
