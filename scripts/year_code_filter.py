@@ -12,6 +12,6 @@ def func(df):
     new_df.to_csv("./../Data/merged_data_1.csv",na_rep='N/A')
 
 if __name__ == "__main__":
-    path="/Users/ranjithreddy/Documents/Courses/visualisation/Vis-project/Data/merged_data.csv"
+    path="../Data/merged_data.csv"
     df=pd.read_csv(path)
     func(df)
