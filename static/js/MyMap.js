@@ -1,6 +1,7 @@
-function myMap(data){
+function myMap(data, attrData){
     // The svg
     console.log(data);
+    console.log(attrData);
     // var svg = d3.select("#div2")
     //             .append("svg");
     // var svg = d3.select("svg"),
@@ -14,6 +15,9 @@ function myMap(data){
     //     .append("g")
     //     .attr("transform",
     //         "translate(" + margin.left + "," + margin.top + ")")
+    //attrData = {"United States":1232, "India":3212}
+    console.log(attrData);
+    console.log(Object.values(attrData));
     
 
     var margin = {top: 30, right: 30, bottom: 70, left: 60},
@@ -36,8 +40,11 @@ function myMap(data){
     //     .attr("height", height);
 
     //colors
+    a = d3.min(Object.values(attrData));
+    b = d3.max(Object.values(attrData));
+    k = (b-a)/5
     var colorScale = d3.scaleThreshold()
-      .domain([100000, 1000000, 10000000, 30000000, 100000000, 500000000])
+      .domain([a, a+k, a+2*k, a+3*k, a+4*k, a+5*k])
       .range(d3.schemeBlues[7]);
 
     // Map and projection
@@ -57,39 +64,16 @@ function myMap(data){
         .style("opacity", .8)
         .style("stroke", "white")
         
-        data = JSON.stringify({
-            "_display":"ConvertedComp",
-            "_filters":{"Country" : d.properties.name}
-        })
-
-        var settings = {
-            "async": true,
-            "crossDomain": true,
-            "url": "/worldmap",
-            "method": "POST",
-            "headers": {
-              "content-type": "application/json",
-              "cache-control": "no-cache",
-              "postman-token": "e992363a-3c8c-81f0-089e-3dffb472c2b2"
-            },
-            "processData": false,
-            "data": data
-          }
-          
-          $.ajax(settings).done(function (response) {
-            console.log(response);
-            console.log(response.avg_salary);
-            coordinates = d.geometry.coordinates
+        coordinates = d.geometry.coordinates
             var xtip = 100;//coordinates[0][0];
             var ytip = 100;//coordinates[0][1];
             
             console.log("xtip is==>",xtip);
             svg.append("g").append("text")
-                        .text(Math.floor(response.avg_salary)+" $")
+                        .text(Math.floor(attrData[d.properties.name])+" $")
                         .attr("id", "tooltext")
                         .attr("stroke", "#377eb8")
                         .attr("transform", function(d) { return "translate(" + xtip + "," + ytip + ")"; });
-        });
         
     }
 
@@ -109,12 +93,11 @@ function myMap(data){
         .selectAll("path")
         .data(data.features)
         .enter().append("path")
-            .attr("fill", "#69b3a2")
-            // .attr("fill", function(d){
-            //   //console.log(d);
-            //   d.total = 500000000;
-            //   return colorScale(d.total);
-            // })
+            //.attr("fill", "#69b3a2")
+            .attr("fill", function(d){
+              //d.total = 500000000;
+              return colorScale(attrData[d.properties.name]);
+            })
             .attr("d", d3.geoPath()
                 .projection(projection)
             )

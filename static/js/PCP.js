@@ -1,65 +1,68 @@
-function parallel_coordinates_plot(){
+function parallel_coordinates_plot(featureNames, values){
+    console.log(featureNames);
+    console.log(values);
     d3.select("#div3").select("svg").remove();
-    featureNames = [
-        "Games Played",
-        "Field Goals Made",
-        "Field Goals Attempted",
-        "3Pointers Made",
-        "3Pointers Attempted",
-        "Free Throws Made",
-        "Free Throws Attempted",
-        "Personal Fouls",
-        "Offensive Rebounds",
-        "Defensive Rebounds",
-        "height_cm",
-        "weight"
-    ]
-    pcpCategories = ["cat","num","num","num","num","num","num","num","num","num","num","num",]
-    values = [
-        [
-            "aa",
-            956,
-            1665,
-            0,
-            1,
-            432,
-            824,
-            255,
-            336,
-            742,
-            216,
-            325
-        ],
-        [
-            "dd",
-            800,
-            1696,
-            95,
-            236,
-            436,
-            551,
-            263,
-            150,
-            326,
-            198,
-            220
-        ],
-        [
-            "bb",
-            752,
-            1476,
-            2,
-            8,
-            589,
-            739,
-            229,
-            169,
-            610,
-            206,
-            265
-        ]
-    ]
-
+    // featureNames = [
+    //     "Games Played",
+    //     "Field Goals Made",
+    //     "Field Goals Attempted",
+    //     "3Pointers Made",
+    //     "3Pointers Attempted",
+    //     "Free Throws Made",
+    //     "Free Throws Attempted",
+    //     "Personal Fouls",
+    //     "Offensive Rebounds",
+    //     "Defensive Rebounds",
+    //     "height_cm",
+    //     "weight"
+    // ]
+    // pcpCategories = ["cat","num","num","num","num","num","num","num","num","num","num","num",]
+    // values = [
+    //     [
+    //         "aa",
+    //         956,
+    //         1665,
+    //         0,
+    //         1,
+    //         432,
+    //         824,
+    //         255,
+    //         336,
+    //         742,
+    //         216,
+    //         325
+    //     ],
+    //     [
+    //         "dd",
+    //         800,
+    //         1696,
+    //         95,
+    //         236,
+    //         436,
+    //         551,
+    //         263,
+    //         150,
+    //         326,
+    //         198,
+    //         220
+    //     ],
+    //     [
+    //         "bb",
+    //         752,
+    //         1476,
+    //         2,
+    //         8,
+    //         589,
+    //         739,
+    //         229,
+    //         169,
+    //         610,
+    //         206,
+    //         265
+    //     ]
+    // ]
+    featureNames = ["YearsCodePro", "ConvertedComp", "WorkWeekHrs", "JobSat"]
+    pcpCategories = ["num", "num", "num", "cat"]
     console.log(featureNames)
     console.log(values)
     var combineValues = new Array(values.length);

@@ -1,5 +1,6 @@
 var isHist = false;
 var kmeans = [];
+var geoData = [];
 function init(){
     d3.selectAll("svg").remove();
 }
@@ -185,7 +186,28 @@ function display_ScatterPlot(){
 }
 
 function display_PCPlot(){
-  parallel_coordinates_plot();
+  data = JSON.stringify({
+    "_filters":["YearsCodePro", "ConvertedComp", "WorkWeekHrs", "JobSat"]
+  })
+  var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "/pcpplot",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json",
+      "cache-control": "no-cache",
+      "postman-token": "ee0d7b6a-d48f-7cf6-bc27-110ea60f1ac3"
+    },
+    "processData": false,
+    "data": data
+  }
+  
+  $.ajax(settings).done(function (response) {
+    console.log(response);
+    parallel_coordinates_plot(data, response.pcp_data);
+  });
+  //parallel_coordinates_plot();
 }
 
 function display_mdsplot(event){
@@ -208,6 +230,30 @@ function display_mdsplot(event){
         var obj2 = JSON.parse(kmeans)
         mds_plot(obj, obj2);
       });
+}
+
+function display_myMap(FilterString){
+  data = JSON.stringify({
+    "_display":FilterString
+  })
+  var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "/worldmap",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json",
+      "cache-control": "no-cache",
+      "postman-token": "1890a726-8ad9-a4b7-7689-fde3ea7a9ec9"
+    },
+    "processData": false,
+    "data": data
+  }
+  
+  $.ajax(settings).done(function (response) {
+    console.log(response);
+    myMap(geoData, response.avg_data);
+  });  
 }
 
 function display_pcplot(event){
@@ -269,14 +315,15 @@ function readTextFile(file, callback) {
 
 //usage:
 readTextFile("../static/geo.json", function(text){
-  var data = JSON.parse(text);
-  console.log(data);
-  myMap(data);
+  geoData = JSON.parse(text);
+  console.log(geoData);
+  console.log("testing coming here");
+  display_BarChart("LanguageWorkedWith");
+  display_ScatterPlot();
+  display_PCPlot();
+  display_myMap("ConvertedComp");
+  get_filters();
 });
 //get_kmeans();
-console.log("testing coming here");
-display_BarChart("LanguageWorkedWith");
-display_ScatterPlot();
-display_PCPlot();
-get_filters();
+
 //display_ScreePlot();

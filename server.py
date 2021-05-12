@@ -80,8 +80,9 @@ def get_avg_by_country(new_df,key):
 	for country in countries:
 		attrib = new_df.loc[new_df["Country"]==country]
 		attrib = attrib[key].values
-		mean_attrib = np.mean(attrib)
-		mp[country] = mean_attrib
+		if(len(attrib) > 0):
+			mean_attrib = np.mean(attrib)
+			mp[country] = mean_attrib
 	return mp
 
 @app.route('/worldmap',methods=['POST'])
@@ -178,6 +179,7 @@ def pcpplot():
 	col_names = df.columns
 	data=[]
 	new_df = df.loc[df['year'] == 2020]
+	#new_df = new_df.loc[new_df['Country'] == 'India']
 	new_df = new_df[_filters]
 	print(new_df)
 	print(new_df)
