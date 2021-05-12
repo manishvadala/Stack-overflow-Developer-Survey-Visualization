@@ -14,9 +14,10 @@ function parallel_coordinates_plot(){
         "height_cm",
         "weight"
     ]
+    pcpCategories = ["cat","num","num","num","num","num","num","num","num","num","num","num",]
     values = [
         [
-            79,
+            "aa",
             956,
             1665,
             0,
@@ -30,8 +31,8 @@ function parallel_coordinates_plot(){
             325
         ],
         [
-            82,
-            788,
+            "dd",
+            800,
             1696,
             95,
             236,
@@ -44,7 +45,7 @@ function parallel_coordinates_plot(){
             220
         ],
         [
-            82,
+            "bb",
             752,
             1476,
             2,
@@ -91,17 +92,20 @@ function parallel_coordinates_plot(){
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     
     
-    dimensions = d3.keys(combineValues[0]).filter(function(d) {
-        temp = (y[d] = d3.scaleLinear()
-        .domain(d3.extent(combineValues, function(p){
-            // console.log(d);
-            // console.log(p);
-            // console.log(p[d]);
-            return +p[d];
-        }))
-        .range([height, 0]));
-        //console.log(temp);
-        return temp;
+    dimensions = d3.keys(values[0]).filter(function(d) {
+        if (pcpCategories[d] == "num") {
+            temp = (y[d] = d3.scaleLinear()
+                .domain(d3.extent(values, function(p) {
+                    return +p[d];
+                }))
+                .range([height, 0]));
+            return temp;
+        } else if (pcpCategories[d] == "cat") {
+            temp = (y[d] = d3.scaleBand()
+                .domain(values.map(function(value, index) { return value[d]; }))
+                .range([0, height]));
+            return temp;
+        }
     })
 
     console.log("dimensions ", dimensions)
@@ -197,8 +201,14 @@ function parallel_coordinates_plot(){
     
     // Returns the path for a given data point.
     function path(d) {
-    return line(dimensions.map(function(p) { return [position(p), y[p](d[p])]; }));
-    }
+        return line(dimensions.map(function(p) {
+            if(pcpCategories[p] == "num")
+                return [position(p), y[p](d[p])];
+            else
+                return [position(p), y[p](d[p]) + y[p].bandwidth() / 2];
+        }));
+        }
+    
       
     function brushstart() {
     d3.event.sourceEvent.stopPropagation();
@@ -229,7 +239,11 @@ function parallel_coordinates_plot(){
         foreground.style('display', function(d) {
             return actives.every(function(active) {
                 const dim = active.dimension;
-                return active.extent[0] <= y[dim](d[dim]) && y[dim](d[dim]) <= active.extent[1];
+                if(pcpCategories[dim] == "num")
+                    return active.extent[0] <= y[dim](d[dim]) && y[dim](d[dim]) <= active.extent[1];
+                else
+                    return active.extent[0] <= (y[dim](d[dim]) + y[dim].bandwidth()/2) && (y[dim](d[dim]) + y[dim].bandwidth()/2) <= active.extent[1];
+                
             }) ? null : "none";
         });
     }
