@@ -140,11 +140,7 @@ def prep_Data_response(exp,mp):
 def get_data_exp(df,uniq_languages):
 	exp_levels = list(set(df["YearsCodePro"].values))
 	exp_levels.sort()
-	exp_levels=exp_levels[:-2]
 	exp_levels = [int(level) for level in exp_levels]
-	exp_levels.sort()
-	exp_levels = [str(level) for level in exp_levels]
-	print(exp_levels)
 	_data_display=[]
 	arr={}
 	for exp in exp_levels:
@@ -157,9 +153,8 @@ def get_data_exp(df,uniq_languages):
 		mp=get_language_compensation(new_df,mp)
 		resp=prep_Data_response(exp,mp)
 		_data_display=_data_display+resp
-	print(_data_display)
+	#print(_data_display)
 	return _data_display
-
 
 @app.route('/scatterplot',methods=["POST"])
 def scatter_plot():
@@ -205,7 +200,7 @@ def pcpplot():
 	return response
 
 def load_data():
-	_data_path = os.path.join(BASE_PATH,"Data","merged_data.csv")
+	_data_path = os.path.join(BASE_PATH,"Data","merged_data_1.csv")
 	global df
 	df=pd.read_csv(_data_path)
 	print(df.shape)
