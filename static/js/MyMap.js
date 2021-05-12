@@ -84,7 +84,6 @@ function myMap(data){
                         .attr("id", "tooltext")
                         .attr("stroke", "#377eb8")
                         .attr("transform", function(d) { return "translate(" + xtip + "," + ytip + ")"; });
-
         });
         
     }

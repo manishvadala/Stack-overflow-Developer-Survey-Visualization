@@ -26,7 +26,13 @@ function get_filters(){
     .enter()
     .append('option')
     .text(function(d) {return d;})
-    .attr("value", function(d) {return d;})
+    .attr("value", function(d) {return d;});
+
+    d3.select("#selectVar")
+    .on('change',function(){
+      selected_val = d3.select(this).property('value')
+      display_BarChart("DatabaseWorkedWith");
+    });
 
     yData = ["2019", "2020"]
     d3.select("#selectYear")
@@ -127,8 +133,8 @@ function display_ScreePlot(){
      
 }
 
-function display_BarChart(){
-  FilterString="LanguageWorkedWith";
+function display_BarChart(FilterString){
+//FilterString="LanguageWorkedWith";
   data = JSON.stringify({
     "_display":FilterString,
     "_filters":{}
@@ -268,8 +274,8 @@ readTextFile("../static/geo.json", function(text){
   myMap(data);
 });
 //get_kmeans();
-console.log("testing coming here")
-display_BarChart();
+console.log("testing coming here");
+display_BarChart("LanguageWorkedWith");
 display_ScatterPlot();
 display_PCPlot();
 get_filters();
