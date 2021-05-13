@@ -23,6 +23,11 @@ def salary_mismatch_fix(new_df):
     new_df = new_df[new_df["CompTotal"].notna()]
     for i in range(len(countries)):
         new_df["ConvertedComp"][(new_df["CompTotal"]>salaries[i]) & (new_df["CompFreq"]=="Weekly") & (new_df['Country']==countries[i])] = new_df["CompTotal"]
+    index_names = new_df[(new_df["CompTotal"]>40000000) & (new_df['Country']==countries[i])].index
+    new_df.drop(index_names, inplace = True)
+    index_names = new_df[(new_df["CompTotal"]<100)].index
+    #print(len(index_names))
+    new_df.drop(index_names, inplace = True)
     return new_df
 
 if __name__ == "__main__":
