@@ -20,7 +20,7 @@ function make_active(event){
 }
 
 function get_filters(){
-    tData = ["LanguageWorkedWith", "DatabaseWorkedWith", "LanguageDesireNextYear", "DatabaseDesireNextYear", "DevType"]
+    tData = ["LanguageWorkedWith", "DatabaseWorkedWith", "PlatformWorkedWith", "LanguageDesireNextYear", "DatabaseDesireNextYear", "PlatformDesireNextYear", "DevType"]
     d3.select("#selectVar")
     .selectAll('myOptions')
     .data(tData)
@@ -88,7 +88,7 @@ function get_filters(){
     .text(function(d) {return d;})
     .attr("value", function(d) {return d;})
 
-    cData = ["LanguageWorkedWith", "DatabaseWorkedWith", "LanguageDesireNextYear", "DatabaseDesireNextYear", "DevType"]
+    cData = ["LanguageWorkedWith", "DatabaseWorkedWith", "PlatformWorkedWith", "LanguageDesireNextYear", "DatabaseDesireNextYear", "PlatformDesireNextYear", "DevType"]
     d3.select("#selectC")
     .selectAll('myOptions')
     .data(cData)

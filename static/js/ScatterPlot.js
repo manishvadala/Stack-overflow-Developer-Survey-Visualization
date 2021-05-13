@@ -13,9 +13,9 @@ function myScatter(data) {
     // }
     
     //Data
-    a = [1,22,33,43,59,79,102,120,150,200]
-    b = [1,2,3,4,5,5,4,3,2,1]
-    c = [0,1,2,3,4,5,6,7,8,9]
+    // a = [1,22,33,43,59,79,102,120,150,200]
+    // b = [1,2,3,4,5,5,4,3,2,1]
+    // c = [0,1,2,3,4,5,6,7,8,9]
 
     // data = [{groupA: "8", groupB: "72000", groupC: "Python", groupD: "100"}, 
     //         {groupA: "7", groupB: "68000", groupC: "Go", groupD: "200"}, 
@@ -29,7 +29,7 @@ function myScatter(data) {
 
     //console.log(totalArr);
     var margin = { top: 40, right: 60, bottom: 50, left: 70 },
-        width = 700 - margin.left - margin.right,
+        width = 900 - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
     // append the svg object to the body of the page
     var svg = d3.select("#div4")
