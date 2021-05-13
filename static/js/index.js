@@ -259,6 +259,10 @@ function display_myMap(FilterString){
   });  
 }
 
+function display_gender(){
+  showGender();
+}
+
 function display_pcplot(event){
     make_active(this.event)
     var settings = {
@@ -325,6 +329,7 @@ readTextFile("../static/geo.json", function(text){
   display_ScatterPlot();
   display_PCPlot();
   display_myMap("ConvertedComp");
+  display_gender();
   get_filters();
 });
 //get_kmeans();
