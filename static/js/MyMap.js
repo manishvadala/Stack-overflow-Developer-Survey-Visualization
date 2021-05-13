@@ -55,7 +55,20 @@ function myMap(data, attrData){
     .scale(width / 1.3 / Math.PI)
     .translate([width / 2, height / 2])
 
+    var tip = d3.tip()
+                .attr('class', 'd3-tip')
+                .offset([100, 0])
+                .html(function(d) {
+                  var dataRow = Math.floor(attrData[d.properties.name])
+                    if (!isNaN(dataRow)) {
+                        console.log(dataRow);
+                        return dataRow;
+                    }
+                })
+    svg.call(tip);
+
     var mouseOver = function(d) {
+        tip.show(d, this),
         d3.selectAll(".Country")
         .transition()
         .duration(200)
@@ -66,25 +79,10 @@ function myMap(data, attrData){
         .duration(200)
         .style("opacity", .8)
         .style("stroke", "white")
-        
-        coordinates = d.geometry.coordinates
-        console.log("coordinates", coordinates);
-            var xtip = d3.select(this)[0];//coordinates[0][0];//
-            var ytip = d3.select(this)[1];//coordinates[0][1];//
-            
-            //console.log("xtip is==>",xtip);
-            if(!isNaN(Math.floor(attrData[d.properties.name]))){
-                svg.append("g").append("text")
-                        //.text(Math.floor(attrData[d.properties.name])+" $")
-                        .text(Math.floor(attrData[d.properties.name]))
-                        .attr("id", "tooltext")
-                        .attr("stroke", "#377eb8")
-                        .attr("transform", function(d) { return "translate(" + xtip + "," + ytip + ")"; });
-            }
-        
     }
 
     var mouseLeave = function(d) {
+      tip.hide(d, this),
       d3.selectAll(".Country")
         .transition()
         .duration(200)
@@ -93,7 +91,6 @@ function myMap(data, attrData){
         .transition()
         .duration(200)
         .style("stroke", "#fff")
-      d3.select("#tooltext").remove(); 
     }
 
     var mouseDown = function(d){
@@ -153,7 +150,7 @@ function myMap(data, attrData){
             .style("stroke", "#fff") //can fill the colors later
             .attr("class", function(d){ return "Country" } )
             .style("opacity", .8)
-            .on("mouseover", mouseOver )
-            .on("mouseleave", mouseLeave )
+            .on("mouseover", mouseOver)
+            .on("mouseleave", mouseLeave)
             .on("mousedown", mouseDown)
 }
