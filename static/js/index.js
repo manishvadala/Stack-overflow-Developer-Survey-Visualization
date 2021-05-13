@@ -17,15 +17,9 @@ function make_active(event){
         tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
     event.currentTarget.className += " active";
-
 }
-// rect_plot();
-// document.getElementById("div1").style.display="block";
-// document.getElementById("selectVar").style.display="block";
-// document.getElementById("div2").style.display="none";
 
 function get_filters(){
-
     tData = ["LanguageWorkedWith", "DatabaseWorkedWith", "LanguageDesireNextYear", "DatabaseDesireNextYear", "DevType"]
     d3.select("#selectVar")
     .selectAll('myOptions')
@@ -116,9 +110,7 @@ function get_filters(){
     .enter()
     .append('option')
     .text(function(d) {return d;})
-    .attr("value", function(d) {return d;})
-
-    
+    .attr("value", function(d) {return d;})    
 }
 
 function update_Filters_Country(filter_country){
@@ -132,7 +124,6 @@ function update_Filters_Country(filter_country){
 
 
 function display_BarChart(FilterString){
-//FilterString="LanguageWorkedWith";
   if(global_country === "All"){
     data = JSON.stringify({
       "_display":FilterString,
@@ -161,7 +152,6 @@ function display_BarChart(FilterString){
   
   $.ajax(settings).done(function (response) {
     console.log(response);
-    //var obj = JSON.parse(response.bc_data)
     myBar(response.bc_data);
   });
 }
@@ -230,10 +220,8 @@ function display_PCPlot(){
   }
   
   $.ajax(settings).done(function (response) {
-    console.log(response);
     parallel_coordinates_plot(data, response.pcp_data);
   });
-  //parallel_coordinates_plot();
 }
 
 function display_myMap(FilterString){
@@ -256,7 +244,6 @@ function display_myMap(FilterString){
   }
   
   $.ajax(settings).done(function (response) {
-    console.log(response);
     myMap(geoData, response.avg_data);
   });  
 }
@@ -295,11 +282,7 @@ function display_pcplot(event){
           "postman-token": "56decab4-c9b3-cc3f-a8bc-84ad563f1163"
         }
       }
-      
       $.ajax(settings).done(function (response) {
-        console.log(response);
-        // var obj = JSON.parse(response[0].featureNames);
-        // var obj2 = JSON.parse(response[1].values);
         var obj2 = JSON.parse(kmeans)
         parallel_coordinates_plot(response[0].featureNames, response[1].values, obj2)
       });
@@ -319,7 +302,6 @@ function get_kmeans(){
       }
       
       $.ajax(settings).done(function (response) {
-        console.log(response);
         kmeans = response.kmeansLabels;
       });
 }
@@ -340,7 +322,6 @@ function readTextFile(file, callback) {
   rawFile.send(null);
 }
 
-//usage:
 readTextFile("../static/geo.json", function(text){
   geoData = JSON.parse(text);
   console.log(geoData);
@@ -352,6 +333,3 @@ readTextFile("../static/geo.json", function(text){
   display_gender();
   get_filters();
 });
-//get_kmeans();
-
-//display_ScreePlot();

@@ -58,6 +58,10 @@ def piechart():
 	men = len(new_df.loc[new_df["Gender"]=="Man"])
 	women = len(new_df.loc[new_df["Gender"]=="Woman"])
 	others = len(new_df.loc[new_df["Gender"]=="Other"])
+	total = men+women+others
+	men = (men/total)*100
+	women = (women/total)*100
+	others = (others/total)*100
 	data={
 		"Man":men,
 		"Woman":women,

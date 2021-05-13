@@ -77,7 +77,7 @@ function parallel_coordinates_plot(featureNames, values){
 
     var margin = {top: 100, right: 10, bottom: 10, left: 50},
     width = 860 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    height = 430 - margin.top - margin.bottom;
 
     var x = d3.scalePoint().range([0, width], 1),
     y = {},

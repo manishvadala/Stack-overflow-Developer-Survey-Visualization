@@ -3,7 +3,7 @@ function showGender(res_data){
 
     // set the dimensions and margins of the graph
     var width = 350
-    height = 350
+    height = 430
     margin = 40
 
     // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
