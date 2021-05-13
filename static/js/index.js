@@ -6,6 +6,7 @@ var selected_val_map = "Avg. Salaries";
 var selected_val_sColor = "LanguageWorkedWith";
 var global_country = "All";
 var global_year = 2020;
+var global_gender="";
 function init(){
     d3.selectAll("svg").remove();
 }
@@ -126,6 +127,7 @@ function update_Filters_Country(filter_country){
     display_BarChart(selected_val_bar);
     display_ScatterPlot();
     display_PCPlot();
+    display_gender();
 }
 
 
@@ -260,7 +262,25 @@ function display_myMap(FilterString){
 }
 
 function display_gender(){
-  showGender();
+    if(global_country!=='All')
+      data = JSON.stringify({"Country":global_country});
+    else{
+      data = JSON.stringify({});
+    }
+  var settings = {
+    "url": "/piechart",
+    "method": "POST",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "data": data
+  };
+  
+  $.ajax(settings).done(function (response) {
+    showGender(response.data);
+  });
+  
 }
 
 function display_pcplot(event){

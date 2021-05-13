@@ -1,4 +1,4 @@
-function showGender(){
+function showGender(res_data){
     d3.select("#div5").select("svg").remove();
 
     // set the dimensions and margins of the graph
@@ -18,8 +18,8 @@ function showGender(){
         .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
     // create 2 data_set
-    var data1 = {Male:92, Female: 6, Others:2}
-    var data2 = {a: 6, b: 16, c:20, d:14, e:19, f:12}
+    console.log("resdata==>",res_data)
+    var data1 = {Male:res_data["Man"], Female: res_data["Woman"], Others:res_data["Other"]}
 
     var subgroups = ["Male", "Female", "Others"]
     
@@ -30,13 +30,11 @@ function showGender(){
 
     // A function that create / update the plot for a given variable:
     function update(data) {
-
         // Compute the position of each group on the pie:
         var pie = d3.pie()
         .value(function(d) {return d.value; })
         .sort(function(a, b) { console.log(a) ; return d3.ascending(a.key, b.key);} ) // This make sure that group order remains the same in the pie chart
         var data_ready = pie(d3.entries(data))
-        console.log("data_ready", data_ready);
     
         // map to data
         var u = svg.selectAll("path")
@@ -63,7 +61,6 @@ function showGender(){
         .exit()
         .remove();
 
-        console.log("pie chart coming ehre");
         //legends
         var legend = svg.append('g')
                     .attr('class', 'legend')
@@ -75,15 +72,11 @@ function showGender(){
             .append('rect')
             .attr('x', -20)
             .attr('y', function(d, i){
-                // console.log("d is this ", d);
-                //console.log("i is this ", i);
                 return i * 18;
             })
             .attr('width', 12)
             .attr('height', 12)
             .attr('fill', function(d, i){
-                // console.log("d is this ", d);
-                // console.log("i is this ", i);
                 return color(d);
             });
 
