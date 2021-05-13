@@ -24,7 +24,7 @@ function make_active(event){
 
 function get_filters(){
 
-    tData = ["LanguageWorkedWith", "DatabaseWorkedWith", "LanguageDesireNextYear", "DatabaseDesireNextYear"]
+    tData = ["LanguageWorkedWith", "DatabaseWorkedWith", "LanguageDesireNextYear", "DatabaseDesireNextYear", "DevType"]
     d3.select("#selectVar")
     .selectAll('myOptions')
     .data(tData)
@@ -161,6 +161,7 @@ function display_ScatterPlot(){
   if(global_country === "All"){
     data = JSON.stringify({
       "_filters":["YearsCodePro","ConvertedComp","LanguageWorkedWith"],
+      "Country":"",
       "year":global_year
     })
   }
@@ -187,14 +188,14 @@ function display_ScatterPlot(){
   
   $.ajax(settings).done(function (response) {
     console.log(response);
-    myScatter(response.data);
+    myScatter(response.data_clubbed);
   });
 }
 
 function display_PCPlot(){
   if(global_country === "All"){
     data = JSON.stringify({
-      "_filters":["YearsCodePro", "ConvertedComp", "WorkWeekHrs", "JobSat"],
+      "_filters":["YearsCodePro", "EdLevel", "ConvertedComp", "WorkWeekHrs", "JobSat"],
       "year":global_year
     })
   }

@@ -61,8 +61,8 @@ function parallel_coordinates_plot(featureNames, values){
     //         265
     //     ]
     // ]
-    featureNames = ["YearsCodePro", "ConvertedComp", "WorkWeekHrs", "JobSat"]
-    pcpCategories = ["num", "num", "num", "cat"]
+    featureNames = ["YearsCodePro", "Education Level", "ConvertedComp", "WorkWeekHrs", "JobSat"]
+    pcpCategories = ["num", "cat", "num", "num", "cat"]
     console.log(featureNames)
     console.log(values)
     var combineValues = new Array(values.length);

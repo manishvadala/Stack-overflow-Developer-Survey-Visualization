@@ -72,7 +72,9 @@ function myBar(data) {
       .padding([0.2])
     svg.append("g")
         .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x).tickSize(0));
+        .call(d3.axisBottom(x).tickSize(0))
+        .selectAll(".tick text")
+        .call(wrap, x.bandwidth());
 
     var yScale = d3.scaleLinear()
         .domain([0, 100])
@@ -145,6 +147,30 @@ function myBar(data) {
     //     .attr("width", 10)
     //     .attr("height", function (d) { return height - yScale(b[d]); })
     //     .attr("fill", "#69b3a2")
+    function wrap(text, width) {
+        text.each(function() {
+          var text = d3.select(this),
+              words = text.text().split(/\s+/).reverse(),
+              word,
+              line = [],
+              lineNumber = 0,
+              lineHeight = 1.1, // ems
+              y = text.attr("y"),
+              dy = parseFloat(text.attr("dy")),
+              tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+          while (word = words.pop()) {
+            line.push(word);
+            tspan.text(line.join(" "));
+            if (tspan.node().getComputedTextLength() > width) {
+              line.pop();
+              tspan.text(line.join(" "));
+              line = [word];
+              tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+            }
+          }
+        });
+    }
+
         
     bars = svg.append("g")
           .selectAll("g")

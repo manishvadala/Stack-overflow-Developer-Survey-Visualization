@@ -70,9 +70,12 @@ function myScatter(data) {
     // Add Y axis
     var y;
     if (yType == 'num') {
+        a = d3.min(data, function(d) { return d.groupB; })
+        b = d3.max(data, function(d) { return d.groupB; })
+        k = (b-a)/10
         y = d3.scaleLinear()
             //.domain([40000, d3.max(data, function(d) { return d.groupB; })])
-            .domain([0, 400000])
+            .domain([a-k, b+k])
             .range([height, 0]);
     } else if (yType == 'cat') {
         y = d3.scaleBand()
@@ -128,7 +131,10 @@ function myScatter(data) {
         .on("mouseleave", tip.hide)
 
     // new X axis
-    xType == 'cat' ? x.domain(data.map(function(d) { return d.groupA; })) : x.domain([0, 45]);
+    a = d3.min(data, function(d) { return d.groupA; })
+    b = d3.max(data, function(d) { return d.groupA; })
+    k = (b-a)/10
+    xType == 'cat' ? x.domain(data.map(function(d) { return d.groupA; })) : x.domain([a-k,b+k]);
     svg.select(".myXaxis")
         .transition()
         .duration(200)
