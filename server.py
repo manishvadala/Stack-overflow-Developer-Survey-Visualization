@@ -163,7 +163,11 @@ def scatter_plot():
 	req_data = request.json
 	_filters = req_data.get("_filters",[])
 	_country = req_data.get("Country",None)
-	new_df = df.loc[df['year'] == 2020]
+	_year 	 = req_data.get("year",None)
+	new_df = df
+	if _year:
+		new_df = new_df[new_df['year'].notna()]
+		new_df = new_df.loc[new_df['year'] == _year]
 	for _filter in _filters:
 		new_df = new_df[new_df[_filter].notna()]
 	if _country:
@@ -184,8 +188,12 @@ def pcpplot():
 	req_data = request.json
 	_filters = req_data.get("_filters",[])
 	_country = req_data.get("Country",None)
+	_year = req_data.get("year",None)
 	col_names = df.columns
-	new_df = df.loc[df['year'] == 2020]
+	new_df=df
+	if _year:
+		new_df = new_df[new_df['year'].notna()]
+		new_df = new_df.loc[new_df['year'] == _year]
 	if _country:
 		new_df = filter_country(new_df,_country)
 	new_df = new_df[_filters]
