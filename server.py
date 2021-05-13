@@ -48,6 +48,31 @@ def prep_resp_data(tech_data,years):
 def home():
 	return render_template('index.html')
 
+@app.route('/piechart',methods=['POST'])
+def piechart():
+	req_data = request.json
+	_country = req_data.get("Country",None)
+	new_df=df
+	if _country:
+		new_df = filter_country(new_df,_country)
+	men = len(new_df.loc[new_df["Gender"]=="Man"])
+	women = len(new_df.loc[new_df["Gender"]=="Woman"])
+	others = len(new_df.loc[new_df["Gender"]=="Other"])
+	data={
+		"Man":men,
+		"Woman":women,
+		"Other":others
+	}
+	response = app.response_class(
+		response=json.dumps({
+			"data":data
+		}, cls=NumpyArrayEncoder),
+		status=200,
+		mimetype='application/json'
+	)
+	return response
+
+
 @app.route('/barchart',methods=['POST'])
 def barchart():
 	req_data = request.json
