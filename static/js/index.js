@@ -2,6 +2,8 @@ var isHist = false;
 var kmeans = [];
 var geoData = [];
 var selected_val_bar = "LanguageWorkedWith";
+var global_country = "All";
+var global_year = 2020;
 function init(){
     d3.selectAll("svg").remove();
 }
@@ -33,7 +35,7 @@ function get_filters(){
     d3.select("#selectVar")
     .on('change',function(){
       selected_val_bar = d3.select(this).property('value')
-      display_BarChart(selected_val_bar, "All");
+      display_BarChart(selected_val_bar);
     });
 
     atrData = ["Avg. Salaries", "Avg. Age","Avg. Work Experience", "Avg. WorkWeekHrs"]
@@ -60,6 +62,13 @@ function get_filters(){
     .append('option')
     .text(function(d) {return d;})
     .attr("value", function(d) {return d;})
+
+    d3.select("#selectYear")
+    .on('change',function(){
+      global_year = parseInt(d3.select(this).property('value'));
+      display_ScatterPlot();
+      display_PCPlot();
+    });
 
     aData = ["Experience", "Avg Work Hours"]
     d3.select("#selectA")
@@ -100,15 +109,18 @@ function get_filters(){
     
 }
 
-function update_Filters(filter_country){
+function update_Filters_Country(filter_country){
     console.log("filter country ", filter_country);
-    display_BarChart(selected_val_bar, filter_country)
+    global_country = filter_country
+    display_BarChart(selected_val_bar);
+    display_ScatterPlot();
+    display_PCPlot();
 }
 
 
-function display_BarChart(FilterString, filter_country){
+function display_BarChart(FilterString){
 //FilterString="LanguageWorkedWith";
-  if(filter_country === "All"){
+  if(global_country === "All"){
     data = JSON.stringify({
       "_display":FilterString,
       "_filters":{}
@@ -117,7 +129,7 @@ function display_BarChart(FilterString, filter_country){
   else{
     data = JSON.stringify({
       "_display":FilterString,
-      "_filters":{"Country": filter_country}
+      "_filters":{"Country": global_country}
     })
   }
   var settings = {
@@ -142,9 +154,19 @@ function display_BarChart(FilterString, filter_country){
 }
 
 function display_ScatterPlot(){
-  data = JSON.stringify({
-    "_filters":["YearsCodePro","ConvertedComp","LanguageWorkedWith"]
-  })
+  if(global_country === "All"){
+    data = JSON.stringify({
+      "_filters":["YearsCodePro","ConvertedComp","LanguageWorkedWith"],
+      "year":global_year
+    })
+  }
+  else{
+    data = JSON.stringify({
+      "_filters":["YearsCodePro","ConvertedComp","LanguageWorkedWith"],
+      "Country":global_country,
+      "year":global_year
+    })
+  }
   var settings = {
     "async": true,
     "crossDomain": true,
@@ -166,9 +188,19 @@ function display_ScatterPlot(){
 }
 
 function display_PCPlot(){
-  data = JSON.stringify({
-    "_filters":["YearsCodePro", "ConvertedComp", "WorkWeekHrs", "JobSat"]
-  })
+  if(global_country === "All"){
+    data = JSON.stringify({
+      "_filters":["YearsCodePro", "ConvertedComp", "WorkWeekHrs", "JobSat"],
+      "year":global_year
+    })
+  }
+  else{
+    data = JSON.stringify({
+      "_filters":["YearsCodePro", "ConvertedComp", "WorkWeekHrs", "JobSat"],
+      "Country":global_country,
+      "year":global_year
+    })
+  }
   var settings = {
     "async": true,
     "crossDomain": true,
@@ -276,7 +308,7 @@ readTextFile("../static/geo.json", function(text){
   geoData = JSON.parse(text);
   console.log(geoData);
   console.log("testing coming here");
-  display_BarChart(selected_val_bar, "All");
+  display_BarChart(selected_val_bar);
   display_ScatterPlot();
   display_PCPlot();
   display_myMap("ConvertedComp");

@@ -116,7 +116,7 @@ function myMap(data, attrData){
             else return colorScale(0);
           })
           Switch = 0;
-          update_Filters(cFilter);
+          update_Filters_Country(cFilter);
       }
       else{
         d3.select(this)
@@ -131,7 +131,7 @@ function myMap(data, attrData){
           })
           Switch = 1;
           cFilter = "All"
-          update_Filters(cFilter);
+          update_Filters_Country(cFilter);
       }
 
     }
