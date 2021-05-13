@@ -52,6 +52,19 @@ def education_Level(new_df):
     new_df["EdLevel"].loc[new_df['EdLevel'].str.contains(r'Some(?!$)')]="Secondary school"
     return new_df
 
+def jobseek(new_df):
+    _filter="JobSeek"
+    new_df = new_df[new_df[_filter].notna()]
+    new_df[_filter].loc[new_df[_filter].str.contains(r'interested(?!$)')]="not interested"
+    new_df[_filter].loc[new_df[_filter].str.contains(r'open(?!$)')]="not actively searching"
+    new_df[_filter].loc[new_df[_filter].str.contains(r'actively(?!$)')]="actively searching"
+    # print(len(new_df[_filter].loc[new_df[_filter]=="not interested"]))
+    # print(len(new_df[_filter].loc[new_df[_filter]=="not active"]))
+    # print(len(new_df[_filter].loc[new_df[_filter]=="active"]))
+    # print(new_df[_filter].unique())
+    return new_df
+
+
 
 if __name__ == "__main__":
     path="../Data/merged_data.csv"
@@ -62,4 +75,5 @@ if __name__ == "__main__":
     new_df=salary_mismatch_fix(new_df)
     new_df=education_Level(new_df)
     new_df=gender_filter(new_df)
+    new_df=jobseek(new_df)
     new_df.to_csv("./../Data/merged_data_1.csv",na_rep='N/A')
