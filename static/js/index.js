@@ -122,6 +122,12 @@ function update_Filters_Country(filter_country){
     display_gender();
 }
 
+function update_Filters_Gender(filter_gender){
+    global_gender = filter_gender;
+    display_ScatterPlot();
+    display_PCPlot();
+}
+
 
 function display_BarChart(FilterString){
   if(global_country === "All"){
@@ -161,14 +167,16 @@ function display_ScatterPlot(){
     data = JSON.stringify({
       "_filters":["YearsCodePro","ConvertedComp",selected_val_sColor],
       "Country":"",
-      "year":global_year
+      "year":global_year,
+      "Gender":global_gender
     })
   }
   else{
     data = JSON.stringify({
       "_filters":["YearsCodePro","ConvertedComp",selected_val_sColor],
       "Country":global_country,
-      "year":global_year
+      "year":global_year,
+      "Gender":global_gender
     })
   }
   var settings = {
@@ -195,14 +203,16 @@ function display_PCPlot(){
   if(global_country === "All"){
     data = JSON.stringify({
       "_filters":["YearsCodePro", "EdLevel", "ConvertedComp", "WorkWeekHrs", "JobSat"],
-      "year":global_year
+      "year":global_year,
+      "Gender":global_gender
     })
   }
   else{
     data = JSON.stringify({
       "_filters":["YearsCodePro", "EdLevel", "ConvertedComp", "WorkWeekHrs", "JobSat"],
       "Country":global_country,
-      "year":global_year
+      "year":global_year,
+      "Gender":global_gender
     })
   }
   var settings = {
@@ -268,25 +278,6 @@ function display_gender(){
     showGender(response.data);
   });
   
-}
-
-function display_pcplot(event){
-    make_active(this.event)
-    var settings = {
-        "async": true,
-        "crossDomain": true,
-        "url": "/pcplot",
-        "method": "GET",
-        "headers": {
-          "cache-control": "no-cache",
-          "postman-token": "56decab4-c9b3-cc3f-a8bc-84ad563f1163"
-        }
-      }
-      $.ajax(settings).done(function (response) {
-        var obj2 = JSON.parse(kmeans)
-        parallel_coordinates_plot(response[0].featureNames, response[1].values, obj2)
-      });
-
 }
 
 function get_kmeans(){

@@ -9,6 +9,8 @@ function showGender(res_data){
     // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
     var radius = Math.min(width, height) / 2 - margin
 
+    var Switch = 1;
+    var gFilter = "";
     // append the svg object to the div called 'my_dataviz'
     var svg = d3.select("#div5")
         .append("svg")
@@ -41,6 +43,29 @@ function showGender(res_data){
                 })
     svg.call(tip);
 
+    var mouseDown = function(d){
+        if(Switch){
+            d3.select(this)
+            .attr('fill', function(d){ return "red"; })
+            //console.log("fdkfjakd", d.data.key);
+            if(d.data.key == "Male")
+                gFilter = "Man";
+            else if(d.data.key == "Female")
+                gFilter = "Woman";
+            else if(d.data.key == "Others")
+                gFilter = "Other";
+            
+            Switch = 0;
+        }
+        else{
+            d3.select(this)
+            .attr('fill', function(d){ return(color(d.data.key)) })
+            gFilter = "";
+            Switch = 1;
+        }
+        update_Filters_Gender(gFilter);
+    }
+
     // A function that create / update the plot for a given variable:
     function update(data) {
         // Compute the position of each group on the pie:
@@ -70,6 +95,7 @@ function showGender(res_data){
         .style("opacity", 1)
         .on("mouseover", tip.show)
         .on("mouseleave", tip.hide)
+        .on("mousedown", mouseDown)
     
         // remove the group that is not present anymore
         // u
