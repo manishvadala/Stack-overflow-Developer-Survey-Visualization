@@ -55,7 +55,7 @@ function get_filters(){
       display_myMap(atrData2[atrData.indexOf(selected_val_map)]);
     });
 
-    yData = ["2019", "2020"]
+    yData = ["2020", "2019"]
     d3.select("#selectYear")
     .selectAll('myOptions')
     .data(yData)
