@@ -89,7 +89,11 @@ def get_avg_by_country(new_df,key):
 def worldMap():
 	req_data = request.json
 	_key = req_data.get("_display",{})
-	new_df = df.loc[df['year'] == 2020]
+	_year 	 = req_data.get("year",None)
+	new_df = df
+	if _year:
+		new_df = new_df[new_df['year'].notna()]
+		new_df = new_df.loc[new_df['year'] == _year]
 	avg_data = get_avg_by_country(new_df,_key)
 	response = app.response_class(
 		response=json.dumps({
