@@ -2,6 +2,7 @@ var isHist = false;
 var kmeans = [];
 var geoData = [];
 var selected_val_bar = "LanguageWorkedWith";
+var selected_val_map = "Avg. Salaries";
 var global_country = "All";
 var global_year = 2020;
 function init(){
@@ -50,8 +51,8 @@ function get_filters(){
 
     d3.select("#selectAtr")
     .on('change',function(){
-      selected_val = d3.select(this).property('value')
-      display_myMap(atrData2[atrData.indexOf(selected_val)]);
+      selected_val_map = d3.select(this).property('value')
+      display_myMap(atrData2[atrData.indexOf(selected_val_map)]);
     });
 
     yData = ["2019", "2020"]
@@ -66,6 +67,9 @@ function get_filters(){
     d3.select("#selectYear")
     .on('change',function(){
       global_year = parseInt(d3.select(this).property('value'));
+      global_country = "All";
+      display_BarChart(selected_val_bar);
+      display_myMap(atrData2[atrData.indexOf(selected_val_map)]);
       display_ScatterPlot();
       display_PCPlot();
     });
@@ -111,7 +115,7 @@ function get_filters(){
 
 function update_Filters_Country(filter_country){
     console.log("filter country ", filter_country);
-    global_country = filter_country
+    global_country = filter_country;
     display_BarChart(selected_val_bar);
     display_ScatterPlot();
     display_PCPlot();
@@ -224,7 +228,8 @@ function display_PCPlot(){
 
 function display_myMap(FilterString){
   data = JSON.stringify({
-    "_display":FilterString
+    "_display":FilterString,
+    "year": global_year
   })
   var settings = {
     "async": true,
