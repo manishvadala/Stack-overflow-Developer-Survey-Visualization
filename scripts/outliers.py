@@ -16,9 +16,20 @@ def workweekhrs(new_df):
     new_df = new_df.loc[new_df[_filter]<130]
     return new_df
 
+def salary_mismatch_fix(new_df):
+    countries = ["United States"]
+    salaries = [5000.0]
+    new_df = new_df[new_df["CompFreq"].notna()]
+    new_df = new_df[new_df["CompTotal"].notna()]
+    for i in range(len(countries)):
+        new_df["ConvertedComp"][(new_df["CompTotal"]>salaries[i]) & (new_df["CompFreq"]=="Weekly") & (new_df['Country']==countries[i])] = new_df["CompTotal"]
+    return new_df
+
 if __name__ == "__main__":
     path="../Data/merged_data.csv"
     df=pd.read_csv(path)
+    new_df=df
     new_df=year_filter(df)
     new_df=workweekhrs(new_df)
+    new_df=salary_mismatch_fix(new_df)
     new_df.to_csv("./../Data/merged_data_1.csv",na_rep='N/A')
