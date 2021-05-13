@@ -28,6 +28,19 @@ function showGender(res_data){
     .domain(["d", "Others", "a", "b", "Female", "Male", "c"])
     .range(d3.schemeBlues[7]);
 
+    var tip = d3.tip()
+                .attr('class', 'd3-tip')
+                .offset([100, 0])
+                .html(function(d) {
+                    return d.data.value + " %";
+                //   var dataRow = Math.floor(attrData[d.properties.name])
+                //     if (!isNaN(dataRow)) {
+                //         //console.log(dataRow);
+                //         return dataRow;
+                //     }
+                })
+    svg.call(tip);
+
     // A function that create / update the plot for a given variable:
     function update(data) {
         // Compute the position of each group on the pie:
@@ -35,7 +48,7 @@ function showGender(res_data){
         .value(function(d) {return d.value; })
         .sort(function(a, b) { console.log(a) ; return d3.ascending(a.key, b.key);} ) // This make sure that group order remains the same in the pie chart
         var data_ready = pie(d3.entries(data))
-    
+        
         // map to data
         var u = svg.selectAll("path")
         .data(data_ready)
@@ -44,9 +57,9 @@ function showGender(res_data){
         u
         .enter()
         .append('path')
-        .merge(u)
-        .transition()
-        .duration(1000)
+        // .merge(u)
+        // .transition()
+        // .duration(1000)
         .attr('d', d3.arc()
             .innerRadius(0)
             .outerRadius(radius)
@@ -55,11 +68,13 @@ function showGender(res_data){
         .attr("stroke", "white")
         .style("stroke-width", "2px")
         .style("opacity", 1)
+        .on("mouseover", tip.show)
+        .on("mouseleave", tip.hide)
     
         // remove the group that is not present anymore
-        u
-        .exit()
-        .remove();
+        // u
+        // .exit()
+        // .remove();
 
         //legends
         var legend = svg.append('g')

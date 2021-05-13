@@ -61,7 +61,7 @@ function myMap(data, attrData){
                 .html(function(d) {
                   var dataRow = Math.floor(attrData[d.properties.name])
                     if (!isNaN(dataRow)) {
-                        console.log(dataRow);
+                        //console.log(dataRow);
                         return dataRow;
                     }
                 })
