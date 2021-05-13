@@ -153,13 +153,21 @@ def get_data_exp(df,uniq_languages):
 	#print(_data_display)
 	return _data_display
 
+def filter_country(new_df,_country):
+	new_df = new_df[new_df["Country"].notna()]
+	new_df = new_df.loc[new_df["Country"] == _country]
+	return new_df
+
 @app.route('/scatterplot',methods=["POST"])
 def scatter_plot():
 	req_data = request.json
 	_filters = req_data.get("_filters",[])
+	_country = req_data.get("Country",None)
 	new_df = df.loc[df['year'] == 2020]
 	for _filter in _filters:
 		new_df = new_df[new_df[_filter].notna()]
+	if _country:
+		new_df = filter_country(new_df,_country)
 	uniq_languages = get_uniq_langs(new_df,_filters[-1])
 	_data_display = get_data_exp(new_df,uniq_languages)
 	response = app.response_class(
@@ -173,19 +181,16 @@ def scatter_plot():
 
 @app.route('/pcpplot',methods=["POST"])
 def pcpplot():
-	print("working")
 	req_data = request.json
 	_filters = req_data.get("_filters",[])
+	_country = req_data.get("Country",None)
 	col_names = df.columns
-	data=[]
 	new_df = df.loc[df['year'] == 2020]
-	#new_df = new_df.loc[new_df['Country'] == 'India']
+	if _country:
+		new_df = filter_country(new_df,_country)
 	new_df = new_df[_filters]
-	print(new_df)
-	print(new_df)
 	for _filter in _filters:
 		new_df = new_df[new_df[_filter].notna()]
-	print(new_df.values)
 
 	response = app.response_class(
 		response=json.dumps({
