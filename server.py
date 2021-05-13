@@ -114,9 +114,9 @@ def get_uniq_langs(new_df,key):
 	return uniq_languages
 
 
-def get_language_compensation(new_df,mp):
+def get_language_compensation(new_df,mp,_key):
 	rows=len(new_df)
-	languages = new_df["LanguageWorkedWith"].astype(str)
+	languages = new_df[_key].astype(str)
 	languages = languages.values
 	compensation = new_df["ConvertedComp"].values
 	for i in range(0,rows):
@@ -138,7 +138,7 @@ def prep_Data_response(exp,mp):
 	return resp
 
 
-def get_data_exp(df,uniq_languages):
+def get_data_exp(df,uniq_languages,_key):
 	exp_levels = list(set(df["YearsCodePro"].values))
 	exp_levels.sort()
 	exp_levels = [int(level) for level in exp_levels]
@@ -151,7 +151,7 @@ def get_data_exp(df,uniq_languages):
 		for language in uniq_languages:
 			mp[language]=[0,0]
 		new_df = df.loc[df["YearsCodePro"]==exp]
-		mp=get_language_compensation(new_df,mp)
+		mp=get_language_compensation(new_df,mp,_key)
 		resp=prep_Data_response(exp,mp)
 		_data_display=_data_display+resp
 	#print(_data_display)
@@ -177,7 +177,7 @@ def scatter_plot():
 	if _country:
 		new_df = filter_country(new_df,_country)
 	uniq_languages = get_uniq_langs(new_df,_filters[-1])
-	_data_display = get_data_exp(new_df,uniq_languages)
+	_data_display = get_data_exp(new_df,uniq_languages,_filters[-1])
 	response = app.response_class(
 		response=json.dumps({
 			"data":_data_display
