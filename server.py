@@ -203,7 +203,6 @@ def scatter_plot():
 	_data_display,data_clubbed = get_data_exp(new_df,uniq_languages,_filters[-1])
 	response = app.response_class(
 		response=json.dumps({
-			"data":_data_display,
 			"data_clubbed":data_clubbed
 		}, cls=NumpyArrayEncoder),
 		status=200,
