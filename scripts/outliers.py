@@ -30,6 +30,14 @@ def salary_mismatch_fix(new_df):
     new_df.drop(index_names, inplace = True)
     return new_df
 
+def gender_filter(new_df):
+    _filter="Gender"
+    new_df = new_df[new_df[_filter].notna()]
+    new_df[_filter].loc[new_df[_filter].str.contains(r'binary(?!$)')]="Other"
+    new_df[_filter].loc[new_df[_filter]=="Woman;Man"]="Other"
+    return new_df
+
+
 def education_Level(new_df):
     new_df = new_df[new_df['EdLevel'].notna()]
     #new_df["Edlevel"][(new_df["CompTotal"]>salaries[i]) & (new_df["CompFreq"]=="Weekly") & (new_df['Country']==countries[i])] = new_df["CompTotal"]
@@ -52,4 +60,5 @@ if __name__ == "__main__":
     new_df=workweekhrs(new_df)
     new_df=salary_mismatch_fix(new_df)
     new_df=education_Level(new_df)
+    new_df=gender_filter(new_df)
     new_df.to_csv("./../Data/merged_data_1.csv",na_rep='N/A')
