@@ -63,9 +63,9 @@ def piechart():
 	women = (women/total)*100
 	others = (others/total)*100
 	data={
-		"Man":men,
-		"Woman":women,
-		"Other":others
+		"Man":round(men,2),
+		"Woman":round(women,2),
+		"Other":round(others,2)
 	}
 	response = app.response_class(
 		response=json.dumps({
