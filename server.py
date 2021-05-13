@@ -161,8 +161,10 @@ def clubbed_resp(data,uniq_languages):
 	return new_data
 
 
-def get_data_exp(df,uniq_languages,_key):
-	exp_levels = list(set(df["YearsCodePro"].values))
+def get_data_exp(df,uniq_languages,_filters):
+	x_attrib=_filters[0]
+	_key=_filters[-1]
+	exp_levels = list(set(df[x_attrib].values))
 	exp_levels.sort()
 	exp_levels = [int(level) for level in exp_levels]
 	_data_display=[]
@@ -173,7 +175,7 @@ def get_data_exp(df,uniq_languages,_key):
 		mp=arr[exp]
 		for language in uniq_languages:
 			mp[language]=[0,0]
-		new_df = df.loc[df["YearsCodePro"]==exp]
+		new_df = df.loc[df[x_attrib]==exp]
 		mp=get_language_compensation(new_df,mp,_key)
 		resp=prep_Data_response(exp,mp)
 		_data_display=_data_display+resp
@@ -200,7 +202,7 @@ def scatter_plot():
 	if _country:
 		new_df = filter_country(new_df,_country)
 	uniq_languages = get_uniq_langs(new_df,_filters[-1])
-	_data_display,data_clubbed = get_data_exp(new_df,uniq_languages,_filters[-1])
+	_data_display,data_clubbed = get_data_exp(new_df,uniq_languages,_filters)
 	response = app.response_class(
 		response=json.dumps({
 			"data_clubbed":data_clubbed
