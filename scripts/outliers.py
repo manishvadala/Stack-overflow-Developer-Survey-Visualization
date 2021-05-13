@@ -32,7 +32,8 @@ def salary_mismatch_fix(new_df):
 
 def gender_filter(new_df):
     _filter="Gender"
-    new_df = new_df[new_df[_filter].notna()]
+    #new_df = new_df[new_df[_filter].notna()]
+    new_df[_filter].loc[new_df[_filter].isnull()]="Other"
     new_df[_filter].loc[new_df[_filter].str.contains(r'binary(?!$)')]="Other"
     new_df[_filter].loc[new_df[_filter]=="Woman;Man"]="Other"
     return new_df
