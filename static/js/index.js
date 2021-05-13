@@ -3,6 +3,7 @@ var kmeans = [];
 var geoData = [];
 var selected_val_bar = "LanguageWorkedWith";
 var selected_val_map = "Avg. Salaries";
+var selected_val_sColor = "LanguageWorkedWith";
 var global_country = "All";
 var global_year = 2020;
 function init(){
@@ -92,7 +93,7 @@ function get_filters(){
     .text(function(d) {return d;})
     .attr("value", function(d) {return d;})
 
-    cData = ["LanguageWorkedWith", "DatabaseWorkedWith"]
+    cData = ["LanguageWorkedWith", "DatabaseWorkedWith", "LanguageDesireNextYear", "DatabaseDesireNextYear", "DevType"]
     d3.select("#selectC")
     .selectAll('myOptions')
     .data(cData)
@@ -100,6 +101,12 @@ function get_filters(){
     .append('option')
     .text(function(d) {return d;})
     .attr("value", function(d) {return d;})
+
+    d3.select("#selectC")
+    .on('change',function(){
+      selected_val_sColor = d3.select(this).property('value')
+      display_ScatterPlot();
+    });
 
     dData = ["No. of People"]
     d3.select("#selectD")
@@ -160,14 +167,14 @@ function display_BarChart(FilterString){
 function display_ScatterPlot(){
   if(global_country === "All"){
     data = JSON.stringify({
-      "_filters":["YearsCodePro","ConvertedComp","LanguageWorkedWith"],
+      "_filters":["YearsCodePro","ConvertedComp",selected_val_sColor],
       "Country":"",
       "year":global_year
     })
   }
   else{
     data = JSON.stringify({
-      "_filters":["YearsCodePro","ConvertedComp","LanguageWorkedWith"],
+      "_filters":["YearsCodePro","ConvertedComp",selected_val_sColor],
       "Country":global_country,
       "year":global_year
     })
