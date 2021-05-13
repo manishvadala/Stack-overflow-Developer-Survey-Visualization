@@ -208,7 +208,7 @@ function display_PCPlot(){
   }
   else{
     data = JSON.stringify({
-      "_filters":["YearsCodePro", "ConvertedComp", "WorkWeekHrs", "JobSat"],
+      "_filters":["YearsCodePro", "EdLevel", "ConvertedComp", "WorkWeekHrs", "JobSat"],
       "Country":global_country,
       "year":global_year
     })

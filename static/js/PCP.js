@@ -64,13 +64,13 @@ function parallel_coordinates_plot(featureNames, values){
     featureNames = ["YearsCodePro", "Education Level", "ConvertedComp", "WorkWeekHrs", "JobSat"]
     pcpCategories = ["num", "cat", "num", "num", "cat"]
     console.log(featureNames)
-    console.log(values)
+    //console.log(values)
     var combineValues = new Array(values.length);
     combineValues[0] = featureNames;
     for(var i=0; i<values.length; i++){
         combineValues[i+1] = values[i];
     }
-    console.log(combineValues);
+    //console.log(combineValues);
     // console.log(combineValues[0]);
     // console.log(combineValues[101]);
     // console.log(kmeans);
@@ -126,6 +126,10 @@ function parallel_coordinates_plot(featureNames, values){
     .enter().append("path")
     .attr("d", path);
 
+    var colorScale = d3.scaleThreshold()
+      .domain([200000, 500000, 800000, 1000000, 1500000, 2000000])
+      .range(d3.schemeBlues[7]);
+    
     // Add blue foreground lines for focus.
     foreground = svg.append("g")
     .attr("class", "foreground")
@@ -134,8 +138,8 @@ function parallel_coordinates_plot(featureNames, values){
     .enter().append("path")
     .attr("d", path)
     .attr("stroke", function (d, i) { 
-        //console.log(kmeans[i]);
-        return get_kcolor(0) } );
+        //console.log("checkingrababu", d[i]);
+        return colorScale(d[2]) } );
 
 
     // Add a group element for each dimension.
