@@ -55,6 +55,10 @@ def barchart():
 	_key = req_data["_display"]
 	years=[2019,2020]
 	tech_data=[]
+	# _gender = req_data.get("Gender",None)
+	# if _gender:
+	# 	new_df = new_df[new_df['Gender'].notna()]
+	# 	new_df = new_df.loc[new_df['Gender'] == _gender]
 	for year in years:
 		new_df = df.loc[df['year'] == year]
 		for _filter in _filters:
@@ -90,10 +94,14 @@ def worldMap():
 	req_data = request.json
 	_key = req_data.get("_display",{})
 	_year 	 = req_data.get("year",None)
+	_gender = req_data.get("Gender",None)
 	new_df = df
 	if _year:
 		new_df = new_df[new_df['year'].notna()]
 		new_df = new_df.loc[new_df['year'] == _year]
+	if _gender:
+		new_df = new_df[new_df['Gender'].notna()]
+		new_df = new_df.loc[new_df['Gender'] == _gender]
 	avg_data = get_avg_by_country(new_df,_key)
 	response = app.response_class(
 		response=json.dumps({
@@ -197,6 +205,10 @@ def scatter_plot():
 	if _year:
 		new_df = new_df[new_df['year'].notna()]
 		new_df = new_df.loc[new_df['year'] == _year]
+	_gender = req_data.get("Gender",None)
+	if _gender:
+		new_df = new_df[new_df['Gender'].notna()]
+		new_df = new_df.loc[new_df['Gender'] == _gender]
 	for _filter in _filters:
 		new_df = new_df[new_df[_filter].notna()]
 	if _country:
@@ -223,6 +235,10 @@ def pcpplot():
 	if _year:
 		new_df = new_df[new_df['year'].notna()]
 		new_df = new_df.loc[new_df['year'] == _year]
+	_gender = req_data.get("Gender",None)
+	if _gender:
+		new_df = new_df[new_df['Gender'].notna()]
+		new_df = new_df.loc[new_df['Gender'] == _gender]
 	if _country:
 		new_df = filter_country(new_df,_country)
 	new_df = new_df[_filters]
