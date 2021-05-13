@@ -43,11 +43,11 @@ function myMap(data, attrData){
     //     .attr("height", height);
 
     //colors
-    a = d3.min(Object.values(attrData));
-    b = d3.max(Object.values(attrData));
-    k = (b-a)/4
+    var a = d3.min(Object.values(attrData));
+    var b = d3.max(Object.values(attrData));
+    var k = (b-a)/4
     var colorScale = d3.scaleThreshold()
-      .domain([a-k, a, a+k, a+2*k, a+3*k, a+4*k])
+      .domain([a-k, a, a+k, a+(1.5)*k, a+2*k, a+4*k])
       .range(d3.schemeBlues[7]);
 
     // Map and projection
@@ -62,7 +62,7 @@ function myMap(data, attrData){
                   var dataRow = Math.floor(attrData[d.properties.name])
                     if (!isNaN(dataRow)) {
                         //console.log(dataRow);
-                        return dataRow;
+                        return d.properties.name + ": " +dataRow;
                     }
                 })
     svg.call(tip);
@@ -77,7 +77,7 @@ function myMap(data, attrData){
         d3.select(this)
         .transition()
         .duration(200)
-        .style("opacity", .8)
+        .style("opacity", 1.2)
         .style("stroke", "white")
     }
 
