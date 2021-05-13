@@ -137,6 +137,29 @@ def prep_Data_response(exp,mp):
 		resp.append({"groupA":exp,"groupB":int(mp[_key][1]),"groupC":_key,"groupD":mp[_key][0]})
 	return resp
 
+def clubbed_resp(data,uniq_languages):
+	new_data = []
+	mp={}
+	for language in uniq_languages:
+		mp[language]={"groupA":0,"groupB":0,"groupC":language,"groupD":0}
+	for i in range(0,len(data)):
+		_people_cnt = data[i]["groupD"]
+		_avg_salary = data[i]["groupB"]
+		_year_exp = data[i]["groupA"]
+		mp[data[i]["groupC"]]["groupA"] +=  (_people_cnt*_year_exp)
+		mp[data[i]["groupC"]]["groupB"] +=  (_people_cnt*_avg_salary)
+		mp[data[i]["groupC"]]["groupD"] +=  _people_cnt
+	
+	for _key in mp:
+		if mp[_key]["groupD"]:
+			mp[_key]["groupA"] = mp[_key]["groupA"]/mp[_key]["groupD"]
+			mp[_key]["groupB"] = mp[_key]["groupB"]/mp[_key]["groupD"]
+		else:
+			mp[_key]["groupA"] = 0
+			mp[_key]["groupB"] = 0
+		new_data.append(mp[_key])
+	return new_data
+
 
 def get_data_exp(df,uniq_languages,_key):
 	exp_levels = list(set(df["YearsCodePro"].values))
@@ -154,8 +177,8 @@ def get_data_exp(df,uniq_languages,_key):
 		mp=get_language_compensation(new_df,mp,_key)
 		resp=prep_Data_response(exp,mp)
 		_data_display=_data_display+resp
-	#print(_data_display)
-	return _data_display
+	_clubbed_data=clubbed_resp(_data_display,uniq_languages)
+	return _data_display,_clubbed_data
 
 def filter_country(new_df,_country):
 	new_df = new_df[new_df["Country"].notna()]
@@ -177,10 +200,11 @@ def scatter_plot():
 	if _country:
 		new_df = filter_country(new_df,_country)
 	uniq_languages = get_uniq_langs(new_df,_filters[-1])
-	_data_display = get_data_exp(new_df,uniq_languages,_filters[-1])
+	_data_display,data_clubbed = get_data_exp(new_df,uniq_languages,_filters[-1])
 	response = app.response_class(
 		response=json.dumps({
-			"data":_data_display
+			"data":_data_display,
+			"data_clubbed":data_clubbed
 		}, cls=NumpyArrayEncoder),
 		status=200,
 		mimetype='application/json'
