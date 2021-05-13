@@ -101,6 +101,19 @@ function myScatter(data) {
     .domain(d3.extent(data, function(d) { return d.groupD; }))
     .range([ 4, 20]);
 
+    var tip = d3.tip()
+                .attr('class', 'd3-tip')
+                .offset([100, 0])
+                .html(function(d) {
+                    return d.groupC + ": " + d.groupD;
+                //   var dataRow = Math.floor(attrData[d.properties.name])
+                //     if (!isNaN(dataRow)) {
+                //         console.log(dataRow);
+                //         return dataRow;
+                //     }
+                })
+    svg.call(tip);
+
     // Add dots
     svg.append('g')
         .selectAll("dot")
@@ -110,7 +123,9 @@ function myScatter(data) {
         .attr("cx", function (d) { return x(d.groupA); })
         .attr("cy", function (d) { return y(d.groupB); })
         .attr("r", function (d) { return z(d.groupD); })
-        .style("fill", function (d) { return myColor(d.groupD); })
+        .style("fill", function (d) { return myColor(d.groupC); })
+        .on("mouseover", tip.show)
+        .on("mouseleave", tip.hide)
 
     // new X axis
     xType == 'cat' ? x.domain(data.map(function(d) { return d.groupA; })) : x.domain([0, 45]);

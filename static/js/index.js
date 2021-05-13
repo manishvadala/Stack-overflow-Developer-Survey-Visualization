@@ -24,7 +24,7 @@ function make_active(event){
 
 function get_filters(){
 
-    tData = ["LanguageWorkedWith", "DatabaseWorkedWith"]
+    tData = ["LanguageWorkedWith", "DatabaseWorkedWith", "LanguageDesireNextYear", "DatabaseDesireNextYear"]
     d3.select("#selectVar")
     .selectAll('myOptions')
     .data(tData)
