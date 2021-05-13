@@ -3,6 +3,8 @@ function myMap(data, attrData){
     d3.select("#div2").select("svg").remove();
     console.log(data);
     console.log(attrData);
+    var Switch = 1;
+    var cFilter = "All";
     // var svg = d3.select("#div2")
     //             .append("svg");
     // var svg = d3.select("svg"),
@@ -58,7 +60,7 @@ function myMap(data, attrData){
         .transition()
         .duration(200)
         .style("opacity", .5)
-        console.log("this value",d.properties.name);
+        //console.log("this value",d.properties.name);
         d3.select(this)
         .transition()
         .duration(200)
@@ -66,10 +68,11 @@ function myMap(data, attrData){
         .style("stroke", "white")
         
         coordinates = d.geometry.coordinates
-            var xtip = 100;//coordinates[0][0];
-            var ytip = 100;//coordinates[0][1];
+        console.log("coordinates", coordinates);
+            var xtip = d3.select(this)[0];//coordinates[0][0];//
+            var ytip = d3.select(this)[1];//coordinates[0][1];//
             
-            console.log("xtip is==>",xtip);
+            //console.log("xtip is==>",xtip);
             if(!isNaN(Math.floor(attrData[d.properties.name]))){
                 svg.append("g").append("text")
                         //.text(Math.floor(attrData[d.properties.name])+" $")
@@ -92,6 +95,46 @@ function myMap(data, attrData){
         .style("stroke", "#fff")
       d3.select("#tooltext").remove(); 
     }
+
+    var mouseDown = function(d){
+      d3.selectAll(".Country")
+      .transition()
+      .duration(200)
+      .style("opacity", .5)
+      //console.log("this value",d.properties.name);
+      if(Switch){
+        d3.select(this)
+          .transition()
+          .duration(200)
+          .style("opacity", .8)
+          .attr("fill", function(d){
+            //d.total = 500000000;
+            if(!isNaN(Math.floor(attrData[d.properties.name]))){
+              cFilter = d.properties.name;
+              return "red";
+            }
+            else return colorScale(0);
+          })
+          Switch = 0;
+          update_Filters(cFilter);
+      }
+      else{
+        d3.select(this)
+          .transition()
+          .duration(200)
+          .style("opacity", .8)
+          .attr("fill", function(d){
+            //d.total = 500000000;
+            if(!isNaN(Math.floor(attrData[d.properties.name])))
+              return colorScale(attrData[d.properties.name]);
+            else return colorScale(0);
+          })
+          Switch = 1;
+          cFilter = "All"
+          update_Filters(cFilter);
+      }
+
+    }
     // Draw the map
     svg.append("g")
         .selectAll("path")
@@ -112,4 +155,5 @@ function myMap(data, attrData){
             .style("opacity", .8)
             .on("mouseover", mouseOver )
             .on("mouseleave", mouseLeave )
+            .on("mousedown", mouseDown)
 }

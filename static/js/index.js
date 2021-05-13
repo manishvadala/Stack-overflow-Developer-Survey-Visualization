@@ -1,6 +1,7 @@
 var isHist = false;
 var kmeans = [];
 var geoData = [];
+var selected_val_bar = "LanguageWorkedWith";
 function init(){
     d3.selectAll("svg").remove();
 }
@@ -31,8 +32,8 @@ function get_filters(){
 
     d3.select("#selectVar")
     .on('change',function(){
-      selected_val = d3.select(this).property('value')
-      display_BarChart(selected_val);
+      selected_val_bar = d3.select(this).property('value')
+      display_BarChart(selected_val_bar, "All");
     });
 
     atrData = ["Avg. Salaries", "Avg. Age","Avg. Work Experience", "Avg. WorkWeekHrs"]
@@ -98,57 +99,27 @@ function get_filters(){
 
     
 }
-function display_biplot(event){
-    make_active(this.event);
-    var settings = {
-        "async": true,
-        "crossDomain": true,
-        "url": "/biplot",
-        "method": "GET",
-        "headers": {
-          "cache-control": "no-cache",
-          "postman-token": "af4ad609-59ba-150e-e3f4-7924baad5236"
-        }
-    }
-      
-    $.ajax(settings).done(function (response) {
-        console.log(response[1]);
-        //var xys = JSON.parse(response[1]);
-        biplot(response[2], response[1], response[0]);
-    });
+
+function update_Filters(filter_country){
+    console.log("filter country ", filter_country);
+    display_BarChart(selected_val_bar, filter_country)
 }
 
-function display_ScreePlot(){
-    //make_active(this.event)
-    console.log("FDJKFHDAKF")
-    //scree_plot(data);
-    var settings = {
-        "async": true,
-        "crossDomain": true,
-        "url": "/scree",
-        "method": "GET",
-        "headers": {
-          "cache-control": "no-cache",
-          "postman-token": "809a1b89-e81c-b145-a397-add6d88d970d"
-        }
-    }
-    
-    $.ajax(settings).done(function (response) {
-        console.log(response);
-        var obj = JSON.parse(response.eigen_values);
-        //var obj2 = JSON.parse(kmeans);
-        //scree_plot(obj, obj2);
-        scree_plot(obj);
-    });
-     
-}
 
-function display_BarChart(FilterString){
+function display_BarChart(FilterString, filter_country){
 //FilterString="LanguageWorkedWith";
-  data = JSON.stringify({
-    "_display":FilterString,
-    "_filters":{}
-  })
+  if(filter_country === "All"){
+    data = JSON.stringify({
+      "_display":FilterString,
+      "_filters":{}
+    })
+  }
+  else{
+    data = JSON.stringify({
+      "_display":FilterString,
+      "_filters":{"Country": filter_country}
+    })
+  }
   var settings = {
     "async": true,
     "crossDomain": true,
@@ -217,28 +188,6 @@ function display_PCPlot(){
     parallel_coordinates_plot(data, response.pcp_data);
   });
   //parallel_coordinates_plot();
-}
-
-function display_mdsplot(event){
-    make_active(this.event)
-    var settings = {
-        "async": true,
-        "crossDomain": true,
-        "url": "/mdsplot",
-        "method": "GET",
-        "headers": {
-          "cache-control": "no-cache",
-          "postman-token": "87d14ae2-a44d-53e1-d724-5ecbef03c9df"
-        }
-      }
-      
-      $.ajax(settings).done(function (response) {
-        //console.log(response);
-        //console.log(response.Values);
-        var obj = JSON.parse(response.Values);
-        var obj2 = JSON.parse(kmeans)
-        mds_plot(obj, obj2);
-      });
 }
 
 function display_myMap(FilterString){
@@ -327,7 +276,7 @@ readTextFile("../static/geo.json", function(text){
   geoData = JSON.parse(text);
   console.log(geoData);
   console.log("testing coming here");
-  display_BarChart("LanguageWorkedWith");
+  display_BarChart(selected_val_bar, "All");
   display_ScatterPlot();
   display_PCPlot();
   display_myMap("ConvertedComp");
