@@ -32,7 +32,9 @@ function get_filters(){
     d3.select("#selectVar")
     .on('change',function(){
       selected_val_bar = d3.select(this).property('value')
+      selected_val_sColor = selected_val_bar;
       display_BarChart(selected_val_bar);
+      display_ScatterPlot();
     });
 
     atrData = ["Avg. Salaries", "Avg. Age","Avg. Work Experience", "Avg. WorkWeekHrs"]
@@ -69,48 +71,7 @@ function get_filters(){
       display_ScatterPlot();
       display_PCPlot();
     });
-
-    aData = ["Experience", "Avg Work Hours"]
-    d3.select("#selectA")
-    .selectAll('myOptions')
-    .data(aData)
-    .enter()
-    .append('option')
-    .text(function(d) {return d;})
-    .attr("value", function(d) {return d;})
-
-    bData = ["Salaries"]
-    d3.select("#selectB")
-    .selectAll('myOptions')
-    .data(bData)
-    .enter()
-    .append('option')
-    .text(function(d) {return d;})
-    .attr("value", function(d) {return d;})
-
-    cData = ["LanguageWorkedWith", "DatabaseWorkedWith", "PlatformWorkedWith", "LanguageDesireNextYear", "DatabaseDesireNextYear", "PlatformDesireNextYear", "DevType"]
-    d3.select("#selectC")
-    .selectAll('myOptions')
-    .data(cData)
-    .enter()
-    .append('option')
-    .text(function(d) {return d;})
-    .attr("value", function(d) {return d;})
-
-    d3.select("#selectC")
-    .on('change',function(){
-      selected_val_sColor = d3.select(this).property('value')
-      display_ScatterPlot();
-    });
-
-    dData = ["No. of People"]
-    d3.select("#selectD")
-    .selectAll('myOptions')
-    .data(dData)
-    .enter()
-    .append('option')
-    .text(function(d) {return d;})
-    .attr("value", function(d) {return d;})    
+   
 }
 
 function update_Filters_Country(filter_country){
@@ -202,14 +163,14 @@ function display_ScatterPlot(){
 function display_PCPlot(){
   if(global_country === "All"){
     data = JSON.stringify({
-      "_filters":["YearsCodePro", "EdLevel", "ConvertedComp", "WorkWeekHrs", "JobSat"],
+      "_filters":["YearsCodePro", "EdLevel", "ConvertedComp", "JobSeek", "WorkWeekHrs", "JobSat"],
       "year":global_year,
       "Gender":global_gender
     })
   }
   else{
     data = JSON.stringify({
-      "_filters":["YearsCodePro", "EdLevel", "ConvertedComp", "WorkWeekHrs", "JobSat"],
+      "_filters":["YearsCodePro", "EdLevel", "ConvertedComp", "JobSeek", "WorkWeekHrs", "JobSat"],
       "Country":global_country,
       "year":global_year,
       "Gender":global_gender

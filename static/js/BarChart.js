@@ -33,7 +33,7 @@ function myBar(data) {
     //     height = 625 - margin.top - margin.bottom;
     var margin = {top: 30, right: 30, bottom: 70, left: 60},
     width = 660 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+    height = 410 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
     var svg = d3.select("#div1")

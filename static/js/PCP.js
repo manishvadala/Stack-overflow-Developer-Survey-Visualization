@@ -61,8 +61,8 @@ function parallel_coordinates_plot(featureNames, values){
     //         265
     //     ]
     // ]
-    featureNames = ["YearsCodePro", "Education Level", "ConvertedComp", "WorkWeekHrs", "JobSat"]
-    pcpCategories = ["num", "cat", "num", "num", "cat"]
+    featureNames = ["YearsCodePro", "Education Level", "ConvertedComp", "JobSeek", "WorkWeekHrs", "JobSat"]
+    pcpCategories = ["num", "cat", "num", "cat", "num", "cat"]
     console.log(featureNames)
     //console.log(values)
     var combineValues = new Array(values.length);
@@ -127,7 +127,7 @@ function parallel_coordinates_plot(featureNames, values){
     .attr("d", path);
 
     var colorScale = d3.scaleThreshold()
-      .domain([200000, 500000, 800000, 1000000, 1500000, 2000000])
+      .domain([0, 200000, 500000, 1000000, 1500000, 2000000])
       .range(d3.schemeBlues[7]);
     
     // Add blue foreground lines for focus.

@@ -56,7 +56,7 @@ def jobseek(new_df):
     _filter="JobSeek"
     new_df = new_df[new_df[_filter].notna()]
     new_df[_filter].loc[new_df[_filter].str.contains(r'interested(?!$)')]="not interested"
-    new_df[_filter].loc[new_df[_filter].str.contains(r'open(?!$)')]="not actively searching"
+    new_df[_filter].loc[new_df[_filter].str.contains(r'open(?!$)')]="not searching"
     new_df[_filter].loc[new_df[_filter].str.contains(r'actively(?!$)')]="actively searching"
     # print(len(new_df[_filter].loc[new_df[_filter]=="not interested"]))
     # print(len(new_df[_filter].loc[new_df[_filter]=="not active"]))

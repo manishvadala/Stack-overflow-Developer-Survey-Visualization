@@ -30,7 +30,7 @@ function myScatter(data) {
     //console.log(totalArr);
     var margin = { top: 40, right: 60, bottom: 50, left: 70 },
         width = 900 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+        height = 430 - margin.top - margin.bottom;
     // append the svg object to the body of the page
     var svg = d3.select("#div4")
         .append("svg")
@@ -97,7 +97,7 @@ function myScatter(data) {
     // Adding color
     var myColor = d3.scaleOrdinal()
     .domain(d3.extent(data, function(d) { return d.groupC; }))
-    .range(d3.schemeSet2);
+    .range(d3.schemeSet3);
 
     // Add a scale for bubble size
     var z = d3.scaleLinear()
